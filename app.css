@@ -1,0 +1,65 @@
+body {
+    background-color:white
+    
+}
+
+h1 {
+    color: darkgreen;
+}
+
+
+ h2.main-login {
+      border: 2px solid green;
+      background-color: green; /* Solid green background */
+      color: white; /* White text color */
+      padding: 10px; /* Adjust the padding as needed */
+      display: inline-block; /* Keep the frame inline with the text */
+    }
+
+
+
+    /* Container styling */
+  /* Container styling */
+  .login-container {
+    width: 300px;
+    margin: auto;
+    margin-top: 50px;
+  }
+
+  /* Form styling */
+
+
+  /* Input field styling */
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+  /* Submit button styling */
+  .login-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50; /* Green background color */
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .login-btn:hover {
+    background-color: #45a049; /* Darker green color on hover */
+  }
+
+  .quote {
+    position: absolute;
+    top: 4in; /* Move the div down by an inch */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    width: 300px; /* Adjust the width as needed */
+    border: none;
+    padding: 10px;
+  }
+
