@@ -23,7 +23,7 @@
         <button type="submit" class="login-btn">Login</button>
       </form>
 
-    <p>Don't have an account? <a href="signup.html">Sign up here</a>.</p>
+    <p>Don't have an account? <a href="signup.php">Sign up here</a>.</p>
 </div>
 
 <div class="quote">
