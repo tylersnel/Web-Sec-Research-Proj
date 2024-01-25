@@ -1,4 +1,4 @@
-<?php 
+<?php  
 session_start();
 include "db_conn.php";
 
@@ -39,7 +39,7 @@ include "db_conn.php";
 
 <h2>Create an Account</h2>
 
-<form action="" method="POST">
+<form action="process-signup.php" method="POST">
 
   <fieldset>
 
@@ -54,6 +54,14 @@ include "db_conn.php";
     Password:<br>
 
     <input type="text" name="password">
+    <!-- <input type="password" name="password"> -->
+
+    <br>
+
+    Repeat Password:<br>
+
+    <input type="text" name="password_repeat">
+    <!-- <input type="password" name="password_repeat"> -->
 
     <br>
 
