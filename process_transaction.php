@@ -7,24 +7,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $amount = $_POST['amount'];
     $transactionDate = $_POST['date'];
     $accountId = $_POST['account_id'];
-    $account_total= $_POST['account_total'];
+    $account_total = $_POST['account_total'];
 
     // Validate form data (you can add more validation as needed)
     if (empty($amount) || empty($transactionDate) || empty($accountId)) {
         header("Location: transaction_form.php?error=All fields are required");
         exit();
     }
-    
+
 
     // SQL to insert the transaction into the 'transactions' table
     $insertQuery = "INSERT INTO transactions (amount, date, accountid) 
                     VALUES ('$amount', '$transactionDate', '$accountId')";
-    
+
     if (mysqli_query($conn, $insertQuery)) {
         // Redirect to the transaction form with a success message
-        
-       $account_total=$account_total+$amount; 
-        $updateQuery= "UPDATE users 
+
+        $account_total = $account_total + $amount;
+        $updateQuery = "UPDATE users 
                        SET account_total=?
                        WHERE id = ?";
 
@@ -44,20 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: home.php?success=Transaction added successfully");
             exit();
         } else {
-        // Error during update
-        header("Location: home.php?error=Error adding transaction. Please try again.");
-        exit();
+            // Error during update
+            header("Location: home.php?error=Error adding transaction. Please try again.");
+            exit();
         }
-
-       
     } else {
         // Redirect to the transaction form with an error message
         header("Location: home.php?error=Error adding transaction. Please try again.");
         exit();
     }
-
 }
 
 // Close the database connection if needed
-
-?>
