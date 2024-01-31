@@ -7,7 +7,6 @@
 <style>
 
 </style>
-<script src=""></script>
 <body>
  
 <!-- <img src="img_la.jpg" alt="LA" style="width:100%"> -->
@@ -18,7 +17,7 @@
 
 
     <form action="login.php" method="post" class="login-form">
-        <input type="text" name="uname" class="form-input" placeholder="Username">
+        <input type="text" name="user_name" class="form-input" placeholder="Username">
         <input type="password" name="password" class="form-input" placeholder="Password">
         <button type="submit" class="login-btn">Login</button>
       </form>
@@ -31,6 +30,5 @@
     <h1> Smaug, Founder and CEO</h1>
 </div>
 
-<script src="app.js"></script>
 </body>
 </html>
