@@ -1,36 +1,3 @@
-<?php  
-session_start();
-include "db_conn.php";
-
-  if (isset($_POST['submit'])) {
-
-    $uname = $_POST['user_name'];
-
-    $pass = $_POST['password'];
-
-    $name = $_POST['name'];
-
-
-    $sql = "INSERT INTO `users`(`user_name`, `password`, `name`) VALUES ('$uname','$pass','$name')";
-
-    $result = $conn->query($sql);
-
-    if ($result == TRUE) {
-
-      echo "New record created successfully.";
-
-    }else{
-
-      echo "Error:". $sql . "<br>". $conn->error;
-
-    } 
-
-    $conn->close(); 
-
-  }
-
-?>
-
 <!DOCTYPE html>
 
 <html>

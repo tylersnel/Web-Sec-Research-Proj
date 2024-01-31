@@ -24,6 +24,23 @@ if (isset($_POST['uname']) && isset($_POST['password'])){
             	$_SESSION['user_name'] = $row['user_name'];
             	$_SESSION['name'] = $row['name'];
             	$_SESSION['id'] = $row['id'];
+				$_SESSION['account_total'] = $row['account_total'];
+
+				// Additional query for transaction table
+				// Additional query to retrieve data from transactions table based on the account ID
+                $fk_Id = $row['id'];
+                $additionalQuery = "SELECT * FROM transactions WHERE accountid='$fk_Id'";
+                $additionalResult = mysqli_query($conn, $additionalQuery);
+
+                if ($additionalResult) {
+                    $additionalData = mysqli_fetch_assoc($additionalResult);
+                    // Process the additional data as needed
+                    $_SESSION['amount'] = $additionalData['amount'];
+					$_SESSION['transactionID'] = $additionalData['transactionID'];
+					$_SESSION['date'] = $additionalData['date'];
+                }
+
+
             	header("Location: home.php");
 		        exit();
             }else{
