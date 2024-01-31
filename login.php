@@ -28,23 +28,23 @@ include "db_conn.php";
 
 
 if (isset($_POST['user_name']) && isset($_POST['password'])) {
-	$user_name = $_POST['user_name'];
-	$password = $_POST['password'];
+	$uname = $_POST['user_name'];
+	$pass = $_POST['password'];
 
-	if (empty($user_name)) {
+	if (empty($uname)) {
 		header("Location: index.php?error=User Name is required");
 		exit();
-	} else if (empty($password)) {
+	} else if (empty($pass)) {
 		header("Location: index.php?error=Password is required");
 		exit();
 	} else {
-		$sql = "SELECT * FROM users WHERE user_name='$user_name' AND password='$password'";
+		$sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
 
 		$result = mysqli_query($conn, $sql);
-
+		// echo"$result";
 		if (mysqli_num_rows($result) === 1) {
 			$row = mysqli_fetch_assoc($result);
-			if ($row['user_name'] === $user_name && $row['password'] === $password) {
+			if ($row['user_name'] === $uname && $row['password'] === $pass) {
 				$_SESSION['user_name'] = $row['user_name'];
 				$_SESSION['name'] = $row['name'];
 				$_SESSION['id'] = $row['id'];
@@ -72,7 +72,7 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 				exit();
 			}
 		} else {
-			header("Location: index.php?error=Incorect User name or password");
+			header("Location: index.php?error=not true mysqli_num_rows(result) === 1");
 			exit();
 		}
 	}
