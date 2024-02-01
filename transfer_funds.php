@@ -26,52 +26,32 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
      <html>
 
      <head>
-          <title>HOME</title>
+          <title>Transfer Funds</title>
           <link rel="stylesheet" type="text/css" href="style.css">
      </head>
 
      <body>
-          <h1>Account For <?php echo $_SESSION['name'] ?> </h1>
-          <br></br>
-          <a href="transfer_funds.php">Transfer Funds</a>
-          <br></br>
+          <h1>Transfer Funds from <?php echo $_SESSION['name'] ?>'s Account</h1>
+
           <h2> Account Total <?php echo $accountTotal; ?></h2>
                 
-          <table border='1'>
-               <tr>
-                    <th>Transaction ID</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-               </tr>
-               <?php while ($row = $result->fetch_assoc()) { ?>
-                    <tr>
-                         <td><?php echo $row['transactionID']; ?></td>
-                         <td><?php echo $row['date']; ?></td>
-                         <td><?php echo $row['amount']; ?></td>
-                    </tr>
-               <?php } ?>
-          </table>
-          <br></br>
-
           <form action="process_transaction.php" method="post">
                <label for="amount">Amount:</label>
                <input type="number" id="amount" name="amount" required>
                <br>
 
-               <label for="date">Date:</label>
+               <label for="date">Arrival Date:</label>
                <input type="date" id="date" name="date" required>
                <br> 
 
-               <label for="transactionType">Select Transaction Type:</label>
-               <select id="transactionType" name="transactionType">
-               <option value="deposit">Deposit</option>
-               <option value="withdrawal">Withdrawal</option>
-               </select>
-               <br>
+               <label for="amount_to">Receiving Account Number:</label>
+               <input type="number" id="amount_to" name="amount_To" required>
+               <br> 
 
                <!-- Assuming you have a session variable for the user ID -->
                <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
                <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
+               <input type="hidden" name="transactionType" value= "<?php echo 'withdrawal';?>">
 
                <input type="submit" value="Submit">
           </form>
@@ -83,7 +63,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
           ?>
 
           <br></br>
-          <a href="logout.php">Logout</a>
+          <a href="home.php">Return Home</a>
      </body>
 
      </html>

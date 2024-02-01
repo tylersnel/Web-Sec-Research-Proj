@@ -8,13 +8,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $transactionDate = $_POST['date'];
     $accountId = $_POST['account_id'];
     $account_total = $_POST['account_total'];
+    $transaction_type=$_POST['transactionType'];
 
     // Validate form data (you can add more validation as needed)
     if (empty($amount) || empty($transactionDate) || empty($accountId)) {
         header("Location: transaction_form.php?error=All fields are required");
         exit();
     }
-
+    //If withdrawling from bank account
+    if($transaction_type == 'withdrawal'){
+        $amount*=-1;
+    }
 
     // SQL to insert the transaction into the 'transactions' table
     $insertQuery = "INSERT INTO transactions (amount, date, accountid) 
