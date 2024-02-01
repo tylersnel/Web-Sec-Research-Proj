@@ -57,7 +57,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
                <label for="date">Date:</label>
                <input type="date" id="date" name="date" required>
-               <br>
+               <br> 
 
                <!-- Assuming you have a session variable for the user ID -->
                <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
