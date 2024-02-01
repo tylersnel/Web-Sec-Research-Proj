@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     //If withdrawling from bank account
     if($transaction_type == 'withdrawal'){
-        $amount=$amount*-1;
+        $amount*=-1;
     }
 
     // SQL to insert the transaction into the 'transactions' table
