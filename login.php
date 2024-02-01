@@ -1,28 +1,4 @@
 <?php
-//  if (empty($_POST['user_name'])) {
-// 	die("Location: index.php?error= User Name is required");
-// 	// echo "Location: index.php?error= User Name is required";
-//   }
-
-//   if (empty($_POST['password'])) {
-// 	die("Location: index.php?error= Password is required");
-//   }
-
-//   if (empty($_POST['password_repeat'])) {
-// 	die("Location: index.php?error= Password Repeat is required");
-//   }
-
-//   if (empty($_POST['name'])) {
-// 	die("Location: index.php?error= First Name on Account is required");
-//   }
-
-//   // if ( ! preg_match("/[a-z]/i", $_POST["password"])) {
-//   //     die("password must have a letter");
-//   // }
-
-//   if ($_POST["password"] !== $_POST["password_repeat"]) {
-// 	die("passwords do not match. try again");
-//   }
 session_start();
 include "db_conn.php";
 
@@ -31,17 +7,29 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 	$uname = $_POST['user_name'];
 	$pass = $_POST['password'];
 
+	$errors = array();
+
 	if (empty($uname)) {
-		header("Location: index.php?error=User Name is required");
-		exit();
-	} else if (empty($pass)) {
-		header("Location: index.php?error=Password is required");
-		exit();
+		// header("Location: index.php?error=User Name is required");
+		// header("Location: index.php?<div class='error'>User Name is required</div>");
+		// echo "<div class='error'>User Name is required</div>";
+		// exit();
+		array_push($errors, "User Name is required");
+	}
+	if (empty($pass)) {
+		// header("Location: index.php?error=Password is required");
+		// echo "<div class='error'>Password is required</div>";
+		// exit();
+		array_push($errors, "Password is required");
+	}
+	if (count($errors) > 0) {
+		foreach ($errors as  $error) {
+	        echo "<div class='error'>$error</div>";
+	    }
 	} else {
 		$sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
 
 		$result = mysqli_query($conn, $sql);
-		// echo"$result";
 		if (mysqli_num_rows($result) === 1) {
 			$row = mysqli_fetch_assoc($result);
 			if ($row['user_name'] === $uname && $row['password'] === $pass) {
@@ -77,6 +65,7 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 		}
 	}
 } else {
+	
 	header("Location: index.php");
 	exit();
 }
