@@ -80,6 +80,16 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                $successMessage = $_GET['success'];
                echo "<div style='color: green;'>$successMessage</div>";
           }
+
+          $errors = array();
+          if ($_SESSION['account_total'] < 0) {
+               array_push($errors, "Overdrawn Account!");
+               if (count($errors) > 0) {
+                    foreach ($errors as  $error) {
+                    echo "<div class='error' style='color: red;'>$error</div>";
+                    }
+               }
+          }
           ?>
 
           <br></br>

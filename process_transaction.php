@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Successful update
             // Update the session variable for account_total
             $_SESSION['account_total'] = $account_total;
-
+            
             // Redirect to the transaction form with a success message
             header("Location: home.php?success=Transaction added successfully");
             exit();
