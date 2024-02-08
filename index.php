@@ -57,7 +57,7 @@ include "db_conn.php";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) === 1) {
                     $row = mysqli_fetch_assoc($result);
-                    if ($row['user_name'] === $uname && $row['password'] === $pass) {
+
                         $_SESSION['user_name'] = $row['user_name'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['id'] = $row['id'];
@@ -80,10 +80,7 @@ include "db_conn.php";
         
                         header("Location: home.php");
                         exit();
-                    } else {
-                        header("Location: index.php?error=Incorect User name or password");
-                        exit();
-                    }
+
                 } else {
                     header("Location: index.php?error=not true mysqli_num_rows(result) === 1");
                     exit();
