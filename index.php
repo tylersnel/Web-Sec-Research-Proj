@@ -29,22 +29,16 @@ include "db_conn.php";
         </form>
         <?php
         if (isset($_POST['user_name']) && isset($_POST['password'])) {
-            $uname = $_POST['user_name'];
-            $pass = $_POST['password'];
+            //updated to prevent injection
+            $uname = mysqli_real_escape_string($conn, $_POST['user_name']);
+            $pass = mysqli_real_escape_string($conn, $_POST['password']);
         
             $errors = array();
         
             if (empty($uname)) {
-                // header("Location: index.php?error=User Name is required");
-                // header("Location: index.php?<div class='error'>User Name is required</div>");
-                // echo "<div class='error'>User Name is required</div>";
-                // exit();
                 array_push($errors, "User Name is required");
             }
             if (empty($pass)) {
-                // header("Location: index.php?error=Password is required");
-                // echo "<div class='error'>Password is required</div>";
-                // exit();
                 array_push($errors, "Password is required");
             }
             if (count($errors) > 0) {
@@ -52,25 +46,42 @@ include "db_conn.php";
                     echo "<div class='error'>$error</div>";
                 }
             } else {
-                $sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
+                //updated to prevent injection. Separates SQL code from user input
+                $sql = "SELECT * FROM users WHERE user_name=? AND password=?";
+            
+                // added to prevent injection
+                $stmt = $conn->prepare($sql);
+                
+                //added to prevent injection
+                if ($stmt) {
+                    $stmt->bind_param("ss", $uname, $pass);
+                
+                    $stmt->execute();
         
-                $result = mysqli_query($conn, $sql);
-                if (mysqli_num_rows($result) === 1) {
-                    $row = mysqli_fetch_assoc($result);
-
+                    $result = $stmt->get_result();
+        
+                    if ($result->num_rows === 1) {
+                        $row = $result->fetch_assoc();
+        
+                        // User authenticated successfully
+                        // Start session and redirect to home.php
+                        session_start();
                         $_SESSION['user_name'] = $row['user_name'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['id'] = $row['id'];
                         $_SESSION['account_total'] = $row['account_total'];
         
                         // Additional query for transaction table
-                        // Additional query to retrieve data from transactions table based on the account ID
+                        //updated to prevent injection
                         $fk_Id = $row['id'];
-                        $additionalQuery = "SELECT * FROM transactions WHERE accountid='$fk_Id'";
-                        $additionalResult = mysqli_query($conn, $additionalQuery);
+                        $additionalQuery = "SELECT * FROM transactions WHERE accountid=?";
+                        $stmt = $conn->prepare($additionalQuery);
+                        $stmt->bind_param("i", $fk_Id);
+                        $stmt->execute();
+                        $additionalResult = $stmt->get_result();
         
-                        if ($additionalResult) {
-                            $additionalData = mysqli_fetch_assoc($additionalResult);
+                        if ($additionalResult->num_rows > 0) {
+                            $additionalData = $additionalResult->fetch_assoc();
                             // Process the additional data as needed
                             $_SESSION['amount'] = $additionalData['amount'];
                             $_SESSION['transactionID'] = $additionalData['transactionID'];
@@ -85,8 +96,14 @@ include "db_conn.php";
                     header("Location: index.php?error=not true mysqli_num_rows(result) === 1");
                     exit();
                 }
+            }else {
+                // Error in prepared statement
+                echo "Error: " . $conn->error;
             }
+            $stmt->close();
+        } 
         }
+        $conn->close();
         ?>
 
         <p>Don't have an account? <a href="signup.php">Sign up here</a>.</p>
