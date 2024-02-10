@@ -23,13 +23,15 @@ Injection:
     2. No syntax error. This means we know the number of columns in table users for intel gathering
   Error Based 1:
     1. Put ['] with brackets removed in the username field.
-    2. A syntax error will appear.
-    3. Put the error into ChatGPT and ask it what type of database is it from or the database type will be in the error message.
-    4. Error message also provides where the error occurred in the query and file path. 
+    2. Put anything in the password field.
+    3. A syntax error will appear.
+    4. Put the error into ChatGPT and ask it what type of database is it from or the database type will be in the error message.
+    5. Error message also provides where the error occurred in the query and file path. 
   Error Based 2:
     1. Put [' OR 1=1;--] with brackets removed in the username field.
-    2. A syntax error will appear.
-    3. Error shows where in query error occurred thus giving us the name of one of the columns in the DB, password.
+    2. Put anything in the password field.
+    3. A syntax error will appear.
+    4. Error shows where in query error occurred thus giving us the name of one of the columns in the DB, password.
     
 
 Broken-Access Control
