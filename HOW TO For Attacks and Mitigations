@@ -14,12 +14,18 @@ Additional Resources:
 
 Injection:
   SQL Injection:
-    1. Put [tyler' OR '1'='1] or [tyler'-- ] (note there is a space after --) with brackets removed in username.
+    1. Put [tyler' OR '1'='1] or [tyler'-- ] (note there is a space after --) with brackets removed in the username field.
     2. Enter anything in the password field.
     3. Login and you will be in Tyler's account
   UNION SQL Injection:
-    1. Put [tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- ] (note there is a space after --) with brackets removed in username.
+    1. Put [tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- ] (note there is a space after --) with brackets removed in the username field.
+    3. Enter anything in the password field.
     2. No syntax error. This means we know the number of columns in table users for intel gathering
+  Error Based:
+    1. Put ['] with brackets removed in the username field.
+    2. A syntax error will appear.
+    3. Put the error into ChatGPT and ask it what type of database is it from or the database type will be in the error message.
+    4. Error message also provides where the error occurred in the query and file path. 
 
 Broken-Access Control
 Cryptographic Failures
