@@ -1,0 +1,25 @@
+
+Steps and Instructions:
+    Numbered steps: Break down the task into clear, sequential steps with descriptive titles.
+    Short and informative sentences: Avoid overly complex language.
+    Screenshots and GIFs: Add visuals to illustrate key steps, especially for non-intuitive actions.
+    Code snippets: Include relevant code snippets if necessary, formatted correctly with syntax highlighting.
+    Error handling: Mention potential errors or issues users might face and how to troubleshoot them.
+
+Additional Resources:
+    Links to official documentation: Offer references for further learning or deeper technical understanding.
+    Related how-to pages: Link to guides for similar tasks, if applicable.
+    Community forums: Offer links to relevant forum discussions for user questions and troubleshooting.
+
+
+Injection:
+  SQL Injection:
+    1. Put [tyler' OR '1'='1] or [tyler'-- ] (note there is a space after --) with brackets removed in username.
+    2. Enter anything in the password field.
+    3. Login and you will be in Tyler's account
+
+Broken-Access Control
+Cryptographic Failures
+Insecure Design
+Security Misconfiguration
+Vulnerable and Outdated Components 
