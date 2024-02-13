@@ -81,6 +81,12 @@ include "db_conn.php";
           array_push($errors, "Passwords do not match");
         }
 
+        //send to password validation check
+        if (passwordCheck($pass) === false){
+          array_push($errors, "Password must be at least 12 characters, can't be a common password, must have one capital and lowercase letter, 
+          number, and special character");
+        }
+
         if (count($errors) > 0) {
           foreach ($errors as  $error) {
             // header("Location: signup.php");
@@ -111,3 +117,44 @@ include "db_conn.php";
 </body>
 
 </html>
+
+
+<?php
+function passwordCheck($userPass){
+  if (strlen($userPass)<12){
+    return false;
+  }
+
+  $commonPass = file_get_contents('10k-most-common.txt');
+  if (strpos($commonPass,$userPass) !== false ){
+    return false;
+  }
+
+  //Check for required characters
+  $requiredChars = array('uppercase' => false, 'lowercase' => false, 'number' => false, 'special' => false);
+    
+  // Check for each required character type
+  if (preg_match('/[A-Z]/', $userPass)) {
+      $requiredChars['uppercase'] = true;
+  }
+  if (preg_match('/[a-z]/', $userPass)) {
+      $requiredChars['lowercase'] = true;
+  }
+  if (preg_match('/[0-9]/', $userPass)) {
+      $requiredChars['number'] = true;
+  }
+  if (preg_match('/[^A-Za-z0-9]/', $userPass)) {
+      $requiredChars['special'] = true;
+  }
+  
+  // Check if all required character types are present
+  foreach ($requiredChars as $requiredChar) {
+      if (!$requiredChar) {
+          // If any required character type is missing, return false
+          return false;
+      }
+  }
+
+}
+
+?>
