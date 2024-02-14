@@ -45,6 +45,8 @@ Injection:
     
 
 Broken-Access Control
+    Vertical privilege escalation - where user can get admin privileges 
+    Horizontal privilege escalation - where user can get access to other users data
 Cryptographic Failures
 Insecure Design
 Security Misconfiguration
