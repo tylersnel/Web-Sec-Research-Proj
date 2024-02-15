@@ -37,6 +37,33 @@ if (!$stmt->execute()) {
 }
 
 $stmt->close();
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Retrieve user data from the form submission
+    $user_name = $_POST['user_name'];
+    $password = $_POST['password'];
+    $name = $_POST['name'];
+    $account_total = $_POST['account_total'];
+
+    // Check if any of the fields have changed
+    if ($user_name === $user['user_name'] && $password === $user['password'] && $name === $user['name'] && $account_total === $user['account_total']) {
+        $message = "No changes were made.";
+    } else {
+        // Perform the update query
+        $sql = "UPDATE users SET user_name=?, password=?, name=?, account_total=? WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssi", $user_name, $password, $name, $account_total, $user_id);
+
+        if ($stmt->execute()) {
+            $message = "User updated successfully.";
+        } else {
+            $errors[] = "Error updating user: " . $conn->error;
+        }
+
+        $stmt->close();
+    }
+}
+
 $conn->close();
 ?>
 
@@ -58,8 +85,11 @@ $conn->close();
                 <p><?php echo $error; ?></p>
             <?php endforeach; ?>
         </div>
-        <?php else : ?>
-        <form action="update_user.php" method="post">
+    <?php else : ?>
+        <?php if (isset($message)) : ?>
+            <p><?php echo $message; ?></p>
+        <?php endif; ?>
+        <form action="" method="post">
             <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
             <label>User Name:</label>
             <input type="text" name="user_name" value="<?php echo htmlspecialchars($user['user_name']); ?>"><br><br>
@@ -72,6 +102,7 @@ $conn->close();
             <input type="submit" value="Update">
         </form>
     <?php endif; ?>
+    <br><a href="admin_home.php">Go back to Admin Home</a>
 </body>
 
 </html>

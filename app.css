@@ -3,6 +3,12 @@ body {
   margin: 0;
   padding: 0;
 }
+.centered {
+  /* width: 300px; */
+  margin: auto; /* Center the div horizontally */
+  text-align: center; /* Center the text horizontally */
+  /* margin-top: 20px; */
+}
 
 h1 {
   color: darkgreen;
@@ -58,10 +64,3 @@ h2.main-login {
   /* Center the text horizontally */
 }
 
-.centered {
-  width: 300px;
-  margin: auto; /* Center the div horizontally */
-  text-align: center; /* Center the text horizontally */
-  margin-top: 20px;
-  /* Add margin to separate from other elements */
-}
