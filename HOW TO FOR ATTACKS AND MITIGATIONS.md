@@ -47,6 +47,23 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - **Discretionary Access Control (DAC):** admin capability is limited to admin and not any user. Admin can choose to edit a user's account information.
 - **Integrity based or Mandatory Access Control (MAC):** where a central authority could regulate access. Banks normally keep records of all their activities, such as editing or deleting an account.
 
+## Broken Authentication
+
+- **Brute Force Password Guessing:** where an attacker gains access to a user account by guessing common passwords:
+    - In our insecure site, users can create any password they wish. It can be a common password, 1 character, and no combinations required. Also, there are no limits to the number of attempts a user has on trying to access their account, leaving user accounts vulnerable to password guessing since the passwords could be commonly used and an attacker can keep guessing.
+    - Test 1: Create a new user and create any password you wish.
+    - Test 2: Attempt to log into new account with the wrong password as many times as you like. Then log into the account with the correct password immediately after.
+    - Test 3: Login to username: tyler and password: 123. Common username and password.
+
+#### Solution
+    - In our secure site first, we added character requirements for passwords. They must be at least 12 characters long and must have 1 capital letter, 1 lowercase letter, 1 number, and 1 special character. Next, we check the potential user password against a list of 10k common passwords. If there is a match, the password is not accepted. We also implemented an account lock feature where if someone attempts 5 failed login accounts, the account is locked for 1 minute (short for grading purposes). The user can successfully log in again with the correct password after the 1-minute lockout expires.
+    - Test 1: Try and create a new user with password 123.
+    - Test 2: Try and create a new user with password qwertY12345^
+    - Test 4: Create a new user following character requirements for password
+    - Test 3: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
+             -Step 2: Try to log into your newly created account with the correct password.
+             -Step 3: Once lockout expires, log into newly created user account. 
+
 ## Cryptographic Failures
 ## Insecure Design
 ## Security Misconfiguration
