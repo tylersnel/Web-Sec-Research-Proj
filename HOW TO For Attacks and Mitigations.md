@@ -34,9 +34,18 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - [PHP: mysqli_real_escape_string - Manual](https://www.php.net/manual/en/mysqli.real-escape-string.php)
 - [PHP: Prepared Statements - Manual](https://www.php.net/manual/en/mysqli.prepare.php)
 
-## Broken-Access Control
-- Vertical privilege escalation: where a user can gain admin privileges
-- Horizontal privilege escalation: where a user can access other users' data
+## Broken-Access Control/ Authorization
+
+- **Vertical privilege escalation:** where a user can gain admin privileges:
+    - The direct access of the `/admin_home.php` in the URL is blocked by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
+    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
+
+- **Horizontal privilege escalation:** where a user can access other users' data:
+    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
+
+- **Role-based access control (RBAC):** the user -> role -> permission -> capability. We have designed the application to limit the users' capability only to their own account. And admin login through a different pathway with different capabilities.
+- **Discretionary Access Control (DAC):** admin capability is limited to admin and not any user. Admin can choose to edit a user's account information.
+- **Integrity based or Mandatory Access Control (MAC):** where a central authority could regulate access. Banks normally keep records of all their activities, such as editing or deleting an account.
 
 ## Cryptographic Failures
 ## Insecure Design
