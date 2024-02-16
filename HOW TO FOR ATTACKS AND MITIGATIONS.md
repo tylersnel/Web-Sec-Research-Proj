@@ -55,7 +55,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - Test 2: Attempt to log into new account with the wrong password as many times as you like. Then log into the account with the correct password immediately after.
     - Test 3: Login to username: tyler and password: 123. Common username and password.
 
-#### Solution
+- **Solution:**
     - In our secure site first, we added character requirements for passwords. They must be at least 12 characters long and must have 1 capital letter, 1 lowercase letter, 1 number, and 1 special character. Next, we check the potential user password against a list of 10k common passwords. If there is a match, the password is not accepted. We also implemented an account lock feature where if someone attempts 5 failed login accounts, the account is locked for 1 minute (short for grading purposes). The user can successfully log in again with the correct password after the 1-minute lockout expires.
     - Test 1: Try and create a new user with password 123.
     - Test 2: Try and create a new user with password qwertY12345^
