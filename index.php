@@ -64,15 +64,17 @@ include "db_conn.php";
 
                         // User authenticated successfully
                         // Start session and redirect to home.php
-                        session_start();
                         $_SESSION['user_name'] = $row['user_name'];
                         $_SESSION['name'] = $row['name'];
                         $_SESSION['id'] = $row['id'];
                         $_SESSION['account_total'] = $row['account_total'];
-
+                        $fk_Id = $row['id'];                        
+                        
+                        //checks if account is locked even if login sucessful 
+                        account_lock_check($row['user_name'], $conn);
+                    
                         // Additional query for transaction table
                         //updated to prevent injection
-                        $fk_Id = $row['id'];
                         $additionalQuery = "SELECT * FROM transactions WHERE accountid=?";
                         $stmt = $conn->prepare($additionalQuery);
                         $stmt->bind_param("i", $fk_Id);
@@ -87,18 +89,26 @@ include "db_conn.php";
                             $_SESSION['date'] = $additionalData['date'];
                         }
 
-
+                        //rest of failed login attemtps
+                        $stmt = $conn->prepare("UPDATE users SET failed_logins = 0 WHERE id = $fk_Id");
+				                $stmt->execute();
                         header("Location: home.php");
                         exit();
-                    } else {
-                        header("Location: index.php?error=not true mysqli_num_rows(result) === 1");
-                        exit();
-                    }
                 } else {
-                    // Error in prepared statement
-                    echo "Error: " . $conn->error;
+
+                    //checks if account is locked
+                    account_lock_check($uname, $conn);
+                    //check if failed login attempt on username                 
+                    account_failed_attempts($uname,$conn);
+                    header("Location: index.php?error=not true mysqli_num_rows(result) === 1");
+                    exit();   
+                        
+                    }
+            }else {
+                // Error in prepared statement
+                echo "Error: " . $conn->error;
                 }
-                // $stmt->close();
+                 //$stmt->close();
             }
         }
         $conn->close();
@@ -121,3 +131,121 @@ include "db_conn.php";
 </body>
 
 </html>
+
+<?php
+//updates failed attempts entity in db
+function account_failed_attempts($uname,$conn){
+
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+     $sql = "SELECT * FROM users WHERE user_name=?";
+            
+     $stmt = $conn->prepare($sql);
+    
+     if ($stmt) {
+         $stmt->bind_param("s", $uname);
+     
+         $stmt->execute();
+
+         $result = $stmt->get_result();
+
+         if ($result->num_rows === 1) {
+             $row = $result->fetch_assoc();
+             $stmt = $conn->prepare("UPDATE users SET failed_logins = failed_logins + 1 WHERE id = " . $row['id']);
+             $stmt->execute();
+            }
+        }
+
+    account_lock($row['user_name'], $conn);
+}
+?>
+
+<?php
+//locks account if need be
+function account_lock($user_name,$conn){
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT failed_logins FROM users WHERE user_name =?";
+            
+     $stmt = $conn->prepare($sql);
+    
+     if ($stmt) {
+         $stmt->bind_param("s", $user_name);
+     
+         $stmt->execute();
+
+         $result = $stmt->get_result();
+
+         if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            if ($row['failed_logins'] > 4) {
+                
+                $countdown_expiry = date('Y-m-d H:i:s', strtotime('+1 minutes'));
+                $sql = "UPDATE users SET countdown_expiry = ? WHERE user_name = ?";
+            
+                $stmt = $conn->prepare($sql);
+                if ($stmt) {
+                    $stmt->bind_param("ss", $countdown_expiry, $user_name);
+     
+                    $stmt->execute();
+
+                    $result = $stmt->get_result();                   
+                }
+                if (!$result){
+                    echo "Error in countdown timer";
+                }
+            }
+        }
+    }
+}
+?>
+
+<?php
+//Checks if account is locked, unlocks if timmer is over
+function account_lock_check($user_name,$conn){
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    $sql = "SELECT failed_logins, countdown_expiry FROM users WHERE user_name = ?";
+            
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt) {
+        $stmt->bind_param("s", $user_name);
+     
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+            if ($row['failed_logins'] > 4) {
+                $current_time = date('Y-m-d H:i:s');
+                $countdown_expiry = $row['countdown_expiry'];
+                
+                if ($countdown_expiry && strtotime($countdown_expiry) > time()) {
+                    //account lockout still active
+                    echo "<script>alert('Account locked. Try again in one minute');</script>";
+                    exit();
+
+                } else{
+                    $sql = "UPDATE users SET failed_logins = 0 WHERE user_name = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("s", $user_name);
+				    $stmt->execute();
+                    
+                  
+                    
+                }
+        
+            }
+            
+        }
+    }
+}
+?>
