@@ -1,64 +1,66 @@
 body {
-    background-color:white
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+.centered {
+  /* width: 300px; */
+  margin: auto; /* Center the div horizontally */
+  text-align: center; /* Center the text horizontally */
+  /* margin-top: 20px; */
 }
 
 h1 {
-    color: darkgreen;
+  color: darkgreen;
 }
 
+h2.main-login {
+  border: 2px solid green;
+  background-color: green;
+  color: white;
+  padding: 10px;
+  display: inline-block;
+  margin-top: 20px;
+}
 
- h2.main-login {
-      border: 2px solid green;
-      background-color: green; /* Solid green background */
-      color: white; /* White text color */
-      padding: 10px; /* Adjust the padding as needed */
-      display: inline-block; /* Keep the frame inline with the text */
-    }
+.login-container {
+  width: 300px;
+  margin: 50px auto;
+  /* Center the container horizontally and add margin at the top */
+  text-align: center;
+  /* Center the contents horizontally */
+}
 
+.form-input {
+  width: calc(100% - 22px);
+  /* Subtract padding and border width */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  /* Include padding and border in the width */
+}
 
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
 
-    /* Container styling */
-  /* Container styling */
-  .login-container {
-    width: 300px;
-    margin: auto;
-    margin-top: 50px;
-  }
+.login-btn:hover {
+  background-color: #45a049;
+}
 
-  /* Form styling */
-
-
-  /* Input field styling */
-  .form-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
-
-  /* Submit button styling */
-  .login-btn {
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50; /* Green background color */
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  .login-btn:hover {
-    background-color: #45a049; /* Darker green color on hover */
-  }
-
-  .quote {
-    position: absolute;
-    top: 4in; /* Move the div down by an inch */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-    width: 300px; /* Adjust the width as needed */
-    border: none;
-    padding: 10px;
-  }
+.quote {
+  width: 300px;
+  margin: 20px auto;
+  /* Center the quote horizontally and add margin */
+  text-align: center;
+  /* Center the text horizontally */
+}
 
