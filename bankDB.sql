@@ -12,3 +12,12 @@ CREATE TABLE admin (
 
 INSERT INTO `admin` (`id`, `name`, `pwd`) VALUES
 (1, 'admin', 'admin');
+
+
+CREATE TABLE admin_changes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(255) NOT NULL,
+    admin_id INT NOT NULL,
+    affected_user_id INT NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
