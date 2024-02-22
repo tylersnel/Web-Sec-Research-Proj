@@ -42,7 +42,7 @@ include "db_conn.php";
             }
             if (count($errors) > 0) {
                 foreach ($errors as  $error) {
-                    echo "<div class='error'>$error</div>";
+                    echo "<div class='error'>" . htmlspecialchars($error) . "</div>";
                 }
             } else {
                 //updated to prevent injection. Separates SQL code from user input
@@ -100,7 +100,12 @@ include "db_conn.php";
                     account_lock_check($uname, $conn);
                     //check if failed login attempt on username                 
                     account_failed_attempts($uname,$conn);
-                    header("Location: index.php?error=not true mysqli_num_rows(result) === 1");
+                    array_push($errors, "$uname username not found or $pass password incorrcet. Try again");
+                    if (count($errors) > 0) {
+                        foreach ($errors as  $error) {
+                            echo "<div class='error'>" . htmlspecialchars($error) . "</div>";
+                        }
+                    }
                     exit();   
                         
                     }
@@ -157,8 +162,9 @@ function account_failed_attempts($uname,$conn){
              $stmt->execute();
             }
         }
-
-    account_lock($row['user_name'], $conn);
+    if($result->num_rows === 1){    
+        account_lock($row['user_name'], $conn);
+    }
 }
 ?>
 
@@ -194,9 +200,6 @@ function account_lock($user_name,$conn){
                     $stmt->execute();
 
                     $result = $stmt->get_result();                   
-                }
-                if (!$result){
-                    echo "Error in countdown timer";
                 }
             }
         }
