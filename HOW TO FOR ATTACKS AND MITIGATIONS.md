@@ -54,15 +54,26 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - Test 1: Create a new user and create any password you wish.
     - Test 2: Attempt to log into new account with the wrong password as many times as you like. Then log into the account with the correct password immediately after.
     - Test 3: Login to username: tyler and password: 123. Common username and password.
+    - Test 4: Download brute_force_login_script.py and 10k-most-common.txt. Make appropriate edits to Python script. Where to edit is marked in the script. Run script to brute force common passwords.
 
 - **Solution:**
     - In our secure site first, we added character requirements for passwords. They must be at least 12 characters long and must have 1 capital letter, 1 lowercase letter, 1 number, and 1 special character. Next, we check the potential user password against a list of 10k common passwords. If there is a match, the password is not accepted. We also implemented an account lock feature where if someone attempts 5 failed login accounts, the account is locked for 1 minute (short for grading purposes). The user can successfully log in again with the correct password after the 1-minute lockout expires.
     - Test 1: Try and create a new user with password 123.
     - Test 2: Try and create a new user with password qwertY12345^
-    - Test 4: Create a new user following character requirements for password
+    - Test 4: Create a new user following character requirements for password.
     - Test 3: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
              -Step 2: Try to log into your newly created account with the correct password.
-             -Step 3: Once lockout expires, log into newly created user account. 
+             -Step 3: Once lockout expires, log into newly created user account.
+
+## Cross Site Scripting (XSS)
+- **Reason for Successful Attack** The reason an XSS attack is successful on our insecure website is due to the lack of proper sanitization and encoding of user input before displaying it back to the user. For example in our insecure site, if a user input username is not found or the password is incorrect, that user input username and password is displayed back to the user with a warning that the username could not be found or the password is incorrect. Thus, an attack would be able to add an XSS attack to the username or password input field.
+
+- **Attacks:**
+    - Test 1: On the login page of our insecure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. An alert should appear warning of an XSS attack.
+
+- **Solution:**
+    - To fix XSS vulnerability, we need to properly sanitize and encode any user-generated content before echoing it back to the HTML response. To do that, we decided to use the function `htmlspecialchars()` in PHP to encode special characters and prevent them from being interpreted as HTML or JavaScript. Using that function, any HTML tags or special characters being displayed back to the user will be properly escaped, reducing the risk of XSS attacks.
+    - Test 1:  On the login page of our more secure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. No alert should appear. 
 
 ## Cryptographic Failures
 ## Insecure Design
