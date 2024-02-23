@@ -4,7 +4,8 @@ ini_set('display_errors', 1);
 session_start();
 
 // Check if the user is logged in
-if (isset($_SESSION['id']) && isset($_SESSION['name'])) {
+// if (isset($_SESSION['id']) && isset($_SESSION['name'])) {
+if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
     // Include the database connection script
     include "db_conn.php";
 
