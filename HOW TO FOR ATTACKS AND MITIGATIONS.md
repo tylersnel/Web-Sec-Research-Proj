@@ -37,7 +37,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 ## Broken-Access Control/ Authorization
 
 - **Vertical privilege escalation:** where a user can gain admin privileges:
-    - The direct access of the `/admin_home.php` in the URL is blocked by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
+    - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
     - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
 - **Horizontal privilege escalation:** where a user can access other users' data:
