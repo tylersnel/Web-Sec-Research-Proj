@@ -29,6 +29,6 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     account_total decimal(10,2) NOT NULL,
-    failed_logins decimal(10,2) NOT NULL,
-    countdown_expiry decimal(10,2) NOT NULL
+    failed_logins decimal(10,2) NULL,
+    countdown_expiry decimal(10,2) NULL
 );
