@@ -1,3 +1,10 @@
+## Table of Contents 
+- [Injection](#injection)
+- [Broken-Access Control / Authorization](#broken-access-control--authorization)
+- [Broken Authentication](#broken-authentication)
+- [Cross Site Scripting (XSS)](#cross-site-scripting-xss)
+- [Server-Side Request Forgery (SSRF)](#server-side-request-forgeryssrf)
+
 ## Steps and Instructions:
 
 #### Injection:
@@ -34,7 +41,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - [PHP: mysqli_real_escape_string - Manual](https://www.php.net/manual/en/mysqli.real-escape-string.php)
 - [PHP: Prepared Statements - Manual](https://www.php.net/manual/en/mysqli.prepare.php)
 
-## Broken-Access Control/ Authorization
+## Broken-Access Control / Authorization
 
 - **Vertical privilege escalation:** where a user can gain admin privileges:
     - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
@@ -75,7 +82,15 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - To fix XSS vulnerability, we need to properly sanitize and encode any user-generated content before echoing it back to the HTML response. To do that, we decided to use the function `htmlspecialchars()` in PHP to encode special characters and prevent them from being interpreted as HTML or JavaScript. Using that function, any HTML tags or special characters being displayed back to the user will be properly escaped, reducing the risk of XSS attacks.
     - Test 1:  On the login page of our more secure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. No alert should appear. 
 
-## Cryptographic Failures
-## Insecure Design
-## Security Misconfiguration
-## Vulnerable and Outdated Components
+
+
+## Server-Side Request Forgery (SSRF)
+
+- **Reason for Successful Attack:** The SSRF attack succeeds on our insecure website due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests. There is a potential Server-Side Request Forgery (SSRF) vulnerability in the getYahooFinanceData() function where it makes a cURL request to an external URL (https://yahoo-finance127.p.rapidapi.com/price/{$symbol}). SSRF vulnerabilities occur when an attacker influences the server to make requests to arbitrary destinations, potentially leading to unauthorized access to internal systems or data leakage.
+
+- **Attacks:**
+    - On the user homepage of our insecure site, input `http://localhost/admin_home.php` into the web api field in the request intended to fetch external content. This URL could access sensitive system files on the server. THe other option is an URL that is malicious that is inputted to an internal network resource or an external server controlled by the attacker.
+
+- **Solution:**
+    - To mitigate SSRF vulnerabilities, input validation and whitelisting should be implemented on the server-side to restrict the URLs that can be requested. In our case, we defined a whitelist of the allowed domain "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of allowed domains or using a proxy to limit access to external resources will mitigate this SSRF attack.
+    - **Test 1:** On the homepage of our more secure site, input `http://localhost/admin_home.php` into the URL input field intended for fetching external content. The request should be rejected (or we could have made it redirected to a safe page).
