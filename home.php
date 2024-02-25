@@ -8,7 +8,8 @@ $dotenv->load();
 
 
 // Function to call and print data from Yahoo Finance API
-function getYahooFinanceData($symbol) {
+function getYahooFinanceData($symbol)
+{
     $allowedDomains = array("yahoo-finance127.p.rapidapi.com"); // Define an array of allowed domains
 
     // Extract the domain from the URL
@@ -81,7 +82,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
     $rowAccountTotal = $resultAccountTotal->fetch_assoc();
     $accountTotal = $rowAccountTotal['account_total'];
 
-    ?>
+?>
     <!DOCTYPE html>
     <html>
 
@@ -116,15 +117,54 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                 </tr>
             <?php } ?>
         </table>
-        <br>
-        <br>
+        <br></br>
+
+        <form action="process_transaction.php" method="post">
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" required>
+            <br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" required>
+            <br>
+
+            <label for="transactionType">Select Transaction Type:</label>
+            <select id="transactionType" name="transactionType">
+                <option value="deposit">Deposit</option>
+                <option value="withdrawal">Withdrawal</option>
+            </select>
+            <br>
+
+            <!-- Assuming you have a session variable for the user ID -->
+            <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
+            <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
+
+            <input type="submit" value="Submit">
+        </form>
+        <?php
+        if (isset($_GET['success'])) {
+            $successMessage = $_GET['success'];
+            echo "<div style='color: green;'>$successMessage</div>";
+        }
+
+        $errors = array();
+        if ($_SESSION['account_total'] < 0) {
+            array_push($errors, "Overdrawn Account!");
+            if (count($errors) > 0) {
+                foreach ($errors as  $error) {
+                    echo "<div class='error' style='color: red;'>$error</div>";
+                }
+            }
+        }
+        ?>
+        <br></br>
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label for="symbol">Enter Stock Symbol:</label>
             <input type="text" id="symbol" name="symbol" required>
             <input type="submit" value="Get Yahoo Finance Data">
         </form>
-        
+
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $symbol = $_POST['symbol'];
@@ -132,14 +172,13 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         }
         ?>
 
-        <br>
-        <br>
+        <br></br>
         <a href="logout.php">Logout</a>
     </body>
 
     </html>
 
-    <?php
+<?php
     // Close the statements and connection
     $stmt->close();
     $stmtAccountTotal->close();
@@ -149,4 +188,3 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
     exit();
 }
 ?>
-
