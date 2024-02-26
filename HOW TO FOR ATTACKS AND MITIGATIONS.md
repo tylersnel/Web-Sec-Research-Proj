@@ -8,6 +8,7 @@
 ## Steps and Instructions:
 
 #### Injection:
+- **Reason for Successful Attack** The reason SQL injection is successful on our insecure website is that we lack input validation. Whatever the attacker manually inputs into the user input fields is used directly in the SQL queries. Thus an attacker can manipulate our SQL queries to try and login without knowing the password, gather information for more complex attacks, or anything else they are looking to accomplish.
 
 - **SQL Injection:**
     1. Put `tyler' OR '1'='1` or `tyler'--` (note there is a space after --) in the username field.
@@ -77,11 +78,12 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 
 - **Attacks:**
     - Test 1: On the login page of our insecure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. An alert should appear warning of an XSS attack.
+    - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
 
 - **Solution:**
     - To fix XSS vulnerability, we need to properly sanitize and encode any user-generated content before echoing it back to the HTML response. To do that, we decided to use the function `htmlspecialchars()` in PHP to encode special characters and prevent them from being interpreted as HTML or JavaScript. Using that function, any HTML tags or special characters being displayed back to the user will be properly escaped, reducing the risk of XSS attacks.
     - Test 1:  On the login page of our more secure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. No alert should appear. 
-
+    - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. No alert should appear.
 
 
 ## Server-Side Request Forgery (SSRF)
