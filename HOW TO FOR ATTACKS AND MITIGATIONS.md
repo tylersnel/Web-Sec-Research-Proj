@@ -79,6 +79,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - **Attacks:**
     - Test 1: On the login page of our insecure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. An alert should appear warning of an XSS attack.
     - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
+    - Test 3: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear waning of an XSS attack. 
 
 - **Solution:**
     - To fix XSS vulnerability, we need to properly sanitize and encode any user-generated content before echoing it back to the HTML response. To do that, we decided to use the function `htmlspecialchars()` in PHP to encode special characters and prevent them from being interpreted as HTML or JavaScript. Using that function, any HTML tags or special characters being displayed back to the user will be properly escaped, reducing the risk of XSS attacks.
