@@ -35,12 +35,12 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
           <h2> Account Total <?php echo $accountTotal; ?></h2>
                 
-          <form action="process_transaction.php" method="post">
+          <form action="process_bill_transaction.php" method="post">
                 <dv>From: <?php echo $_SESSION['name'] ?></dv>
                 <br>
  
                <label for="amount_to">To:</label>
-               <input type="text" id="amount_to" name="amount_To" required>
+               <input type="text" id="amount_to" name="amount_to" required>
                <br> 
 
                <label for="amount">Amount:</label>
