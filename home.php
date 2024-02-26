@@ -119,6 +119,45 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
         <br>
         <br>
 
+        <form action="process_transaction.php" method="post">
+               <label for="amount">Amount:</label>
+               <input type="number" id="amount" name="amount" required>
+               <br>
+
+               <label for="date">Date:</label>
+               <input type="date" id="date" name="date" required>
+               <br> 
+
+               <label for="transactionType">Select Transaction Type:</label>
+               <select id="transactionType" name="transactionType">
+               <option value="deposit">Deposit</option>
+               <option value="withdrawal">Withdrawal</option>
+               </select>
+               <br>
+
+               <!-- Assuming you have a session variable for the user ID -->
+               <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
+               <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
+
+               <input type="submit" value="Submit">
+          </form>
+          <?php
+          if (isset($_GET['success'])) {
+               $successMessage = $_GET['success'];
+               echo "<div style='color: green;'>$successMessage</div>";
+          }
+
+          $errors = array();
+          if ($_SESSION['account_total'] < 0) {
+               array_push($errors, "Overdrawn Account!");
+               if (count($errors) > 0) {
+                    foreach ($errors as  $error) {
+                    echo "<div class='error' style='color: red;'>$error</div>";
+                    }
+               }
+          }
+          ?>
+
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label for="symbol">Enter Stock Symbol:</label>
             <input type="text" id="symbol" name="symbol" required>
