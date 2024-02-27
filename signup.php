@@ -23,7 +23,7 @@ include "db_conn.php";
       <fieldset>
         <legend>User information:</legend>
         User name:<br>
-        <input type="text" name="user_name">
+        <input type="text" name="user_name" value="<?php echo isset($_POST['user_name']) ? htmlspecialchars($_POST['user_name']) : '' ?>">
         <br>
         Password:<br>
         <input type="text" name="password">
@@ -36,7 +36,7 @@ include "db_conn.php";
         First Name on Account:<br>
         <input type="text" name="name">
         <br>
-        <input type="submit" name="submit" value="submit">
+        <input type="submit" name="submit" value="submit" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>">
       </fieldset>
       <?php
       if (isset($_POST['submit'])) {
