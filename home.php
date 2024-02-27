@@ -11,19 +11,23 @@ $dotenv->load();
 function getYahooFinanceData($symbol)
 {
     $allowedDomains = array("yahoo-finance127.p.rapidapi.com"); // Define an array of allowed domains
-
+    // $allowedDomains = array("");
+    
     // Extract the domain from the URL
     $urlParts = parse_url("https://yahoo-finance127.p.rapidapi.com/price/{$symbol}");
+    // $urlParts = parse_url($symbol);
     $domain = $urlParts['host'];
 
     // Check if the domain is in the whitelist
     if (in_array($domain, $allowedDomains)) {
+    // if (($domain)) {
         $apiKey = $_ENV['RAPIDAPI_KEY']; // Access the API key from environment variable
 
         $curl = curl_init();
 
         curl_setopt_array($curl, [
             CURLOPT_URL => "https://yahoo-finance127.p.rapidapi.com/price/{$symbol}",
+            // CURLOPT_URL => $symbol,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -88,92 +92,106 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
     <head>
         <title>HOME</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
     <body>
-        <h1>Account For <?php echo $_SESSION['name'] ?> </h1>
-        <br>
-        <br>
-        <ul>
-            <li><a href="transfer_funds.php">Transfer Funds</a></li>
-            <li><a href="bill_pay.php">Pay Bills</a></li>
-        </ul>
-        <br>
-        <br>
-        <h2> Account Total <?php echo $accountTotal; ?></h2>
+        <div class="container">
+            <h1>Account For <?php echo $_SESSION['name'] ?> </h1>
+            <br>
+            <br>
+            <ul>
+                <li><a href="transfer_funds.php">Transfer Funds</a></li>
+                <li><a href="bill_pay.php">Pay Bills</a></li>
+            </ul>
+            <br>
+            <br>
+            <h2> Account Total <?php echo $accountTotal; ?></h2>
 
-        <table border='1'>
-            <tr>
-                <th>Transaction ID</th>
-                <th>Date</th>
-                <th>Amount</th>
-            </tr>
-            <?php while ($row = $result->fetch_assoc()) { ?>
-                <tr>
-                    <td><?php echo $row['transactionID']; ?></td>
-                    <td><?php echo $row['date']; ?></td>
-                    <td><?php echo $row['amount']; ?></td>
-                </tr>
-            <?php } ?>
-        </table>
-        
-        <br></br>
+            <!-- <table border='1'> -->
+            <table class="table table-striped table-bordered table-hover table-sm">
+                <caption>List of Transactions</caption>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Transaction ID</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()) { ?>
+                        <tr>
+                            <th scope="row"><?php echo $row['transactionID']; ?></th>
+                            <td><?php echo $row['date']; ?></td>
+                            <td><?php echo $row['amount']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
 
-        <form action="process_transaction.php" method="post">
-               <label for="amount">Amount:</label>
-               <input type="number" id="amount" name="amount" required>
-               <br>
+            <br></br>
 
-               <label for="date">Date:</label>
-               <input type="date" id="date" name="date" required>
-               <br> 
+            <form action="process_transaction.php" method="post">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required>
+                <br>
 
-               <label for="transactionType">Select Transaction Type:</label>
-               <select id="transactionType" name="transactionType">
-               <option value="deposit">Deposit</option>
-               <option value="withdrawal">Withdrawal</option>
-               </select>
-               <br>
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+                <br>
 
-               <!-- Assuming you have a session variable for the user ID -->
-               <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
-               <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
+                <label for="transactionType">Select Transaction Type:</label>
+                <select id="transactionType" name="transactionType">
+                    <option value="deposit">Deposit</option>
+                    <option value="withdrawal">Withdrawal</option>
+                </select>
+                <br>
 
-               <input type="submit" value="Submit">
-          </form>
-          <?php
-          if (isset($_GET['success'])) {
-               $successMessage = $_GET['success'];
-               echo "<div style='color: green;'>$successMessage</div>";
-          }
+                <!-- Assuming you have a session variable for the user ID -->
+                <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
+                <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
 
-          $errors = array();
-          if ($_SESSION['account_total'] < 0) {
-               array_push($errors, "Overdrawn Account!");
-               if (count($errors) > 0) {
+                <input type="submit" value="Submit">
+            </form>
+            <?php
+            if (isset($_GET['success'])) {
+                $successMessage = $_GET['success'];
+                echo "<div style='color: green;'>$successMessage</div>";
+            }
+
+            $errors = array();
+            if ($_SESSION['account_total'] < 0) {
+                array_push($errors, "Overdrawn Account!");
+                if (count($errors) > 0) {
                     foreach ($errors as  $error) {
-                    echo "<div class='error' style='color: red;'>$error</div>";
+                        echo "<div class='error' style='color: red;'>$error</div>";
                     }
-               }
-          }
-          ?>
+                }
+            }
+            ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <label for="symbol">Enter Stock Symbol:</label>
-            <input type="text" id="symbol" name="symbol" required>
-            <input type="submit" value="Get Yahoo Finance Data">
-        </form>
+            <br></br>
 
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $symbol = $_POST['symbol'];
-            getYahooFinanceData($symbol);
-        }
-        ?>
 
-        <br></br>
-        <a href="logout.php">Logout</a>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <label for="symbol">Enter Stock Symbol:</label>
+                <input type="text" id="symbol" name="symbol" required>
+                <input type="submit" value="Get Yahoo Finance Data">
+            </form>
+
+            <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $symbol = $_POST['symbol'];
+                getYahooFinanceData($symbol);
+            }
+            ?>
+
+            <br></br>
+            <a href="logout.php">Logout</a>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+        </div>
     </body>
 
     </html>
