@@ -28,7 +28,8 @@
     5. Error message also provides the location of the error in the query and file path.
 
 - **Error Based 2:**
-    1. Put `' OR 1=1;--` in the username field.
+    1. Put `' OR 1=1;--` (note there is NOT a space after --) in the username field.
+    2. Enter anything in the password field. in the username field.
     2. Enter anything in the password field.
     3. A syntax error will appear.
     4. Error shows where the error occurred in the query, revealing column names like `password`.
@@ -56,6 +57,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - **Integrity based or Mandatory Access Control (MAC):** where a central authority could regulate access. Banks normally keep records of all their activities, such as editing or deleting an account.
 
 ## Broken Authentication
+- **Reason for Successful Attack** When there are no password requirements, people will tend to use passwords that are easier to remember and if they are easy to remember, they are easy to guess. Also, if there is no limit on the number of attempts one can try on a login attempt, then an attacker can just keep trying until they get it right. No requirements for passwords and no limit on the number of attempts to login leaves user accounts vulnerable to attack from a persistent attacker. 
 
 - **Brute Force Password Guessing:** where an attacker gains access to a user account by guessing common passwords:
     - In our insecure site, users can create any password they wish. It can be a common password, 1 character, and no combinations required. Also, there are no limits to the number of attempts a user has on trying to access their account, leaving user accounts vulnerable to password guessing since the passwords could be commonly used and an attacker can keep guessing.
@@ -71,22 +73,22 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - Test 4: Create a new user following character requirements for password.
     - Test 3: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
              -Step 2: Try to log into your newly created account with the correct password.
-             -Step 3: Once lockout expires, log into newly created user account.
+             -Step 3: Once lockout expires, log into a newly created user account.
 
 ## Cross Site Scripting (XSS)
 - **Reason for Successful Attack** The reason an XSS attack is successful on our insecure website is due to the lack of proper sanitization and encoding of user input before displaying it back to the user. For example in our insecure site, if a user input username is not found or the password is incorrect, that user input username and password is displayed back to the user with a warning that the username could not be found or the password is incorrect. Thus, an attack would be able to add an XSS attack to the username or password input field.
 
 - **Attacks:**
-    - Test 1: On the login page of our insecure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. An alert should appear warning of an XSS attack.
-    - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
-    - Test 3: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear warning of an XSS attack.
+    - Test 1: Log in to your account or create one if you have not yet. Navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
+    - Test 2: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear warning of an XSS attack.
+    - Test 3: Navigate to the administrator page from the login page. (username and password are admin). Once the admin page loads, an XSS attack alert should appear. 
    
 
 - **Solution:**
     - To fix XSS vulnerability, we need to properly sanitize and encode any user-generated content before echoing it back to the HTML response. To do that, we decided to use the function `htmlspecialchars()` in PHP to encode special characters and prevent them from being interpreted as HTML or JavaScript. Using that function, any HTML tags or special characters being displayed back to the user will be properly escaped, reducing the risk of XSS attacks.
-    - Test 1:  On the login page of our more secure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. No alert should appear. 
-    - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. No alert should appear.
-    - Test 3: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish.  No alert should appear.
+    - Test 1: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. No alert should appear.
+    - Test 2: Sign out and go back to the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish.  No alert should appear and a new account will be created.
+    - Test 3: Navigate to the administrator page from the login page. (username and password are admin). The main page should load without an XSS attack warning. 
     
 
 ## Server-Side Request Forgery (SSRF)
@@ -95,6 +97,10 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 
 - **Attacks:**
     - On the user homepage of our insecure site, input `http://localhost/admin_home.php` into the web api field in the request intended to fetch external content. This URL could access sensitive system files on the server. THe other option is an URL that is malicious that is inputted to an internal network resource or an external server controlled by the attacker.
+     - In the request from the yahoo finance button, 
+    When the button is clicked, then there is a web api that can be modified through the request. Here is where the request can be modified. 
+    ![alt text](<Symbol.jpeg>)
+    ![alt text](<SymbolAttack.jpeg>)
 
 - **Solution:**
     - To mitigate SSRF vulnerabilities, input validation and whitelisting should be implemented on the server-side to restrict the URLs that can be requested. In our case, we defined a whitelist of the allowed domain "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of allowed domains or using a proxy to limit access to external resources will mitigate this SSRF attack.
