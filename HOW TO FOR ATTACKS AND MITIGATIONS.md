@@ -16,7 +16,7 @@
     3. Login to access Tyler's account.
 
 - **UNION SQL Injection:**
-    1. Put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL, NULL, NULL FROM users--` (note there is a space after --) in the username field.
+    1. Put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users--` (note there is a space after --) in the username field.
     2. Enter anything in the password field.
     3. No syntax error indicates the number of columns in the `users` table for intel gathering.
 
