@@ -95,6 +95,10 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 
 - **Attacks:**
     - On the user homepage of our insecure site, input `http://localhost/admin_home.php` into the web api field in the request intended to fetch external content. This URL could access sensitive system files on the server. THe other option is an URL that is malicious that is inputted to an internal network resource or an external server controlled by the attacker.
+     - In the request from the yahoo finance button, 
+    When the button is clicked, then there is a web api that can be modified through the request. Here is where the request can be modified. 
+    ![alt text](<Symbol=.jpeg>)
+    ![alt text](<SymbolAttack.jpeg>)
 
 - **Solution:**
     - To mitigate SSRF vulnerabilities, input validation and whitelisting should be implemented on the server-side to restrict the URLs that can be requested. In our case, we defined a whitelist of the allowed domain "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of allowed domains or using a proxy to limit access to external resources will mitigate this SSRF attack.
