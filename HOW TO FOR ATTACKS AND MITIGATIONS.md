@@ -56,6 +56,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - **Integrity based or Mandatory Access Control (MAC):** where a central authority could regulate access. Banks normally keep records of all their activities, such as editing or deleting an account.
 
 ## Broken Authentication
+- **Reason for Successful Attack** When there are no password requirements, people will tend to use passwords that are easier to remember and if they are easy to remember, they are easy to guess. Also, if there is no limit on the number of attempts one can try on a login attempt, then an attacker can just keep trying until they get it right. No requirements for passwords and no limit on the number of attempts to login leaves user accounts vulnerable to attack from a persistent attacker. 
 
 - **Brute Force Password Guessing:** where an attacker gains access to a user account by guessing common passwords:
     - In our insecure site, users can create any password they wish. It can be a common password, 1 character, and no combinations required. Also, there are no limits to the number of attempts a user has on trying to access their account, leaving user accounts vulnerable to password guessing since the passwords could be commonly used and an attacker can keep guessing.
