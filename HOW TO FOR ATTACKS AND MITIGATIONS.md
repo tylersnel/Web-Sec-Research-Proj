@@ -73,22 +73,22 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - Test 4: Create a new user following character requirements for password.
     - Test 3: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
              -Step 2: Try to log into your newly created account with the correct password.
-             -Step 3: Once lockout expires, log into newly created user account.
+             -Step 3: Once lockout expires, log into a newly created user account.
 
 ## Cross Site Scripting (XSS)
 - **Reason for Successful Attack** The reason an XSS attack is successful on our insecure website is due to the lack of proper sanitization and encoding of user input before displaying it back to the user. For example in our insecure site, if a user input username is not found or the password is incorrect, that user input username and password is displayed back to the user with a warning that the username could not be found or the password is incorrect. Thus, an attack would be able to add an XSS attack to the username or password input field.
 
 - **Attacks:**
-    - Test 1: On the login page of our insecure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. An alert should appear warning of an XSS attack.
-    - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
-    - Test 3: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear warning of an XSS attack.
+    - Test 1: Log in to your account or create one if you have not yet. Navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
+    - Test 2: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear warning of an XSS attack.
+    - Test 3: Navigate to the administrator page from the login page. (username and password are admin). Once the admin page loads, an XSS attack alert should appear. 
    
 
 - **Solution:**
     - To fix XSS vulnerability, we need to properly sanitize and encode any user-generated content before echoing it back to the HTML response. To do that, we decided to use the function `htmlspecialchars()` in PHP to encode special characters and prevent them from being interpreted as HTML or JavaScript. Using that function, any HTML tags or special characters being displayed back to the user will be properly escaped, reducing the risk of XSS attacks.
-    - Test 1:  On the login page of our more secure site, input `<script>alert("XSS attack")</script>` into the username and anything into the password field. No alert should appear. 
-    - Test 2: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. No alert should appear.
-    - Test 3: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish.  No alert should appear.
+    - Test 1: Once logged in to your account, navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. No alert should appear.
+    - Test 2: Sign out and go back to the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish.  No alert should appear and a new account will be created.
+    - Test 3: Navigate to the administrator page from the login page. (username and password are admin). The main page should load without an XSS attack warning. 
     
 
 ## Server-Side Request Forgery (SSRF)
