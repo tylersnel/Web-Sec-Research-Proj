@@ -3,7 +3,10 @@
 - [Broken-Access Control / Authorization](#broken-access-control--authorization)
 - [Broken Authentication](#broken-authentication)
 - [Cross Site Scripting (XSS)](#cross-site-scripting-xss)
-- [Server-Side Request Forgery (SSRF)](#server-side-request-forgeryssrf)
+<!-- - [Server-Side Request Forgery (SSRF)](#server-side-request-forgeryssrf) -->
+- [Server-Side Request Forgery \(SSRF\)](#server-side-request-forgeryssrf)
+
+- [Server-Side Request Forgery SSRF](#server-side-request-forgeryssrf)
 
 
 ## Steps and Instructions:
