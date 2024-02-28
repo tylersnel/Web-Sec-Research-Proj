@@ -28,7 +28,8 @@
     5. Error message also provides the location of the error in the query and file path.
 
 - **Error Based 2:**
-    1. Put `' OR 1=1;--` in the username field.
+    1. Put `' OR 1=1;--` (note there is NOT a space after --) in the username field.
+    2. Enter anything in the password field. in the username field.
     2. Enter anything in the password field.
     3. A syntax error will appear.
     4. Error shows where the error occurred in the query, revealing column names like `password`.
