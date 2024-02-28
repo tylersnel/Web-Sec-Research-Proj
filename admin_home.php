@@ -60,11 +60,11 @@ if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
             // Output data of each row
             while ($row = $result->fetch_assoc()) {
         ?>
-                <div>
-                    <h2>User ID: <?php echo $row['id']; ?></h2>
-                    <p>User Name: <?php echo $row['user_name']; ?></p>
-                    <p>Name: <?php echo $row['name']; ?></p>
-                    <p>Account Total: <?php echo $row['account_total']; ?></p>
+                <div>                   
+                    <h2>User ID: <?php echo htmlspecialchars($row['id']); ?></h2>
+                    <p>User Name: <?php echo htmlspecialchars($row['user_name']); ?></p>
+                    <p>Name: <?php echo htmlspecialchars($row['name']); ?></p>
+                    <p>Account Total: <?php echo htmlspecialchars($row['account_total']); ?></p>
                     <!-- Add edit and delete buttons -->
 
                     <a href="edit_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Edit', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Edit</a>
