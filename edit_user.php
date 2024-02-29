@@ -73,36 +73,38 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Edit User - Smaug Bank</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1>Edit User</h1>
+    <div class="container">
+        <h1>Edit User</h1>
 
-    <?php if (!empty($errors)) : ?>
-        <div class="error">
-            <?php foreach ($errors as $error) : ?>
-                <p><?php echo $error; ?></p>
-            <?php endforeach; ?>
-        </div>
-    <?php else : ?>
-        <?php if (isset($message)) : ?>
-            <p><?php echo $message; ?></p>
+        <?php if (!empty($errors)) : ?>
+            <div class="error">
+                <?php foreach ($errors as $error) : ?>
+                    <p><?php echo $error; ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php else : ?>
+            <?php if (isset($message)) : ?>
+                <p><?php echo $message; ?></p>
+            <?php endif; ?>
+            <form action="" method="post">
+                <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                <label>User Name:</label>
+                <input type="text" name="user_name" value="<?php echo htmlspecialchars($user['user_name']); ?>"><br><br>
+                <label>Password:</label>
+                <input type="password" name="password" value="<?php echo htmlspecialchars($user['password']); ?>"><br><br>
+                <label>Name:</label>
+                <input type="text" name="name" value="<?php echo htmlspecialchars($user['name']); ?>"><br><br>
+                <label>Account Total:</label>
+                <input type="text" name="account_total" value="<?php echo htmlspecialchars($user['account_total']); ?>"><br><br>
+                <input type="submit" value="Update">
+            </form>
         <?php endif; ?>
-        <form action="" method="post">
-            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-            <label>User Name:</label>
-            <input type="text" name="user_name" value="<?php echo htmlspecialchars($user['user_name']); ?>"><br><br>
-            <label>Password:</label>
-            <input type="password" name="password" value="<?php echo htmlspecialchars($user['password']); ?>"><br><br>
-            <label>Name:</label>
-            <input type="text" name="name" value="<?php echo htmlspecialchars($user['name']); ?>"><br><br>
-            <label>Account Total:</label>
-            <input type="text" name="account_total" value="<?php echo htmlspecialchars($user['account_total']); ?>"><br><br>
-            <input type="submit" value="Update">
-        </form>
-    <?php endif; ?>
-    <br><a href="admin_home.php">Go back to Admin Home</a>
+        <br><a href="admin_home.php">Go back to Admin Home</a>
+    </div>
 </body>
 
 </html>

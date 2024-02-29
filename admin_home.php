@@ -47,39 +47,46 @@ if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
 
     <head>
         <title>Admin Home - Smaug Bank</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
     <body>
-        <h1>Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?>!</h1>
-        <br><br>
+        <div class="container">
+            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['admin_name']); ?>!</h1>
+            <br><br>
 
-        <?php
-        // Check if there are any users
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while ($row = $result->fetch_assoc()) {
-        ?>
-                <div>                   
-                    <h2>User ID: <?php echo htmlspecialchars($row['id']); ?></h2>
-                    <p>User Name: <?php echo htmlspecialchars($row['user_name']); ?></p>
-                    <p>Name: <?php echo htmlspecialchars($row['name']); ?></p>
-                    <p>Account Total: <?php echo htmlspecialchars($row['account_total']); ?></p>
-                    <!-- Add edit and delete buttons -->
+            <?php
+            // Check if there are any users
+            if ($result->num_rows > 0) {
+                // Output data of each row
+                while ($row = $result->fetch_assoc()) {
+            ?>
+                    <div>
+                        <h2>User ID: <?php echo htmlspecialchars($row['id']); ?></h2>
+                        <p>User Name: <?php echo htmlspecialchars($row['user_name']); ?></p>
+                        <p>Name: <?php echo htmlspecialchars($row['name']); ?></p>
+                        <p>Account Total: <?php echo htmlspecialchars($row['account_total']); ?></p>
+                        <!-- Add edit and delete buttons -->
 
-                    <a href="edit_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Edit', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Edit</a>
-                    <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Delete', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Delete</a>
+                        <!-- <a href="edit_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Edit', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Edit</a>
+                    <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Delete', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Delete</a> -->
 
-                </div>
-        <?php
+                        <a href="edit_user.php?id=<?php echo $row['id']; ?>">Edit</a>
+                        <br>
+                        <a href="delete_user.php?id=<?php echo $row['id']; ?>">Delete</a>
+                        <br>
+                        <br>
+                    </div>
+            <?php
+                }
+            } else {
+                echo "No users found.";
             }
-        } else {
-            echo "No users found.";
-        }
-        ?>
+            ?>
 
-        <br><br>
-        <a href="logout.php">Logout</a>
+            <br><br>
+            <a href="logout.php">Logout</a>
+        </div>
     </body>
 
     <script>
