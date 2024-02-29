@@ -3,7 +3,8 @@
 - [Broken-Access Control / Authorization](#broken-access-control--authorization)
 - [Broken Authentication](#broken-authentication)
 - [Cross Site Scripting (XSS)](#cross-site-scripting-xss)
-- [Server-Side Request Forgery (SSRF)](#server-side-request-forgeryssrf)
+- [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
+
 
 ## Steps and Instructions:
 
@@ -93,7 +94,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 
 ## Server-Side Request Forgery (SSRF)
 
-- **Reason for Successful Attack:** The SSRF attack succeeds on our insecure website due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests. There is a potential Server-Side Request Forgery (SSRF) vulnerability in the getYahooFinanceData() function where it makes a cURL request to an external URL (https://yahoo-finance127.p.rapidapi.com/price/{$symbol}). SSRF vulnerabilities occur when an attacker influences the server to make requests to arbitrary destinations, potentially leading to unauthorized access to internal systems or data leakage.
+- **Reason for Successful Attack:** The SSRF attack succeeds on our insecure website due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests(primarily the api call in our application). There is a potential Server-Side Request Forgery (SSRF) vulnerability in the getYahooFinanceData() function where it makes a cURL request to an external URL (https://yahoo-finance127.p.rapidapi.com/price/{$symbol}). SSRF vulnerabilities occur when an attacker influences the server to make requests to arbitrary destinations, potentially leading to unauthorized access to internal systems or data leakage. The insecure site allows users to input URLs directly, which are then utilized in server-side requests without adequate validation or restriction, enabling attackers to manipulate the URL parameter for unauthorized server-side requests.
 
 - **Attacks:**
     - On the user homepage of our insecure site, input `http://localhost/admin_home.php` into the web api field in the request intended to fetch external content. This URL could access sensitive system files on the server. THe other option is an URL that is malicious that is inputted to an internal network resource or an external server controlled by the attacker.
