@@ -10,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $uname = mysqli_real_escape_string($conn, $_POST['name']);
     $pass = mysqli_real_escape_string($conn, $_POST['pwd']);
     $sql = "SELECT * FROM admin WHERE admin_name=? AND pwd=?";
-    $sql = "SELECT * FROM admin WHERE admin_name=? AND pwd=?";
     $stmt = $conn->prepare($sql);
     
     if ($stmt) {
@@ -23,8 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // User authenticated successfully
                 // Start session and redirect to admin_home.php
-                // $_SESSION['name'] = $row['name']; 
-                // $_SESSION['id'] = $row['id']; 
                 $_SESSION['admin_name'] = $row['admin_name']; 
                 $_SESSION['admin_id'] = $row['admin_id']; 
                 header('location: admin_home.php'); 
