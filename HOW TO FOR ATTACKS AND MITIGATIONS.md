@@ -91,18 +91,17 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - Test 2: Sign out and go back to the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish.  No alert should appear and a new account will be created.
     - Test 3: Navigate to the administrator page from the login page. (username and password are admin). The main page should load without an XSS attack warning. 
     
-
+    
 ## Server-Side Request Forgery (SSRF)
 
-- **Reason for Successful Attack:** The SSRF attack succeeds on our insecure website due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests(primarily the api call in our application). There is a potential Server-Side Request Forgery (SSRF) vulnerability in the getYahooFinanceData() function where it makes a cURL request to an external URL (https://yahoo-finance127.p.rapidapi.com/price/{$symbol}). SSRF vulnerabilities occur when an attacker influences the server to make requests to arbitrary destinations, potentially leading to unauthorized access to internal systems or data leakage. The insecure site allows users to input URLs directly, which are then utilized in server-side requests without adequate validation or restriction, enabling attackers to manipulate the URL parameter for unauthorized server-side requests.
+- **Reason for Successful Attack:**
+Server-Side Request Forgery (SSRF) is a vulnerability that occurs when an attacker manipulates the server into making unauthorized requests to internal or external resources. In our application, the SSRF vulnerability arises from inadequate validation and sanitization of user-input URLs utilized in server-side requests. The SSRF attack succeeds due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests. Our unsecure application allows users to input URLs directly into the API request, which are then utilized in server-side requests without adequate validation or restriction, enabling attackers to manipulate the API parameter for unauthorized server-side requests.
 
 - **Attacks:**
-    - On the user homepage of our insecure site, input `http://localhost/admin_home.php` into the web api field in the request intended to fetch external content. This URL could access sensitive system files on the server. THe other option is an URL that is malicious that is inputted to an internal network resource or an external server controlled by the attacker.
-     - In the request from the yahoo finance button, 
-    When the button is clicked, then there is a web api that can be modified through the request. Here is where the request can be modified. 
-    ![alt text](<Symbol.jpeg>)
-    ![alt text](<SymbolAttack.jpeg>)
+   - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. In the request, input `…/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.
+   ![alt text](<Symbol.jpeg>)
+   ![alt text](<SymbolAttack.jpeg>)
+   - It is possible for an attacker to also enter other sensitve areas of the application or to input a malicious site.
 
 - **Solution:**
-    - To mitigate SSRF vulnerabilities, input validation and whitelisting should be implemented on the server-side to restrict the URLs that can be requested. In our case, we defined a whitelist of the allowed domain "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of allowed domains or using a proxy to limit access to external resources will mitigate this SSRF attack.
-    - **Test 1:** On the homepage of our more secure site, input `http://localhost/admin_home.php` into the URL input field intended for fetching external content. The request should be rejected (or we could have made it redirected to a safe page).
+To mitigate SSRF vulnerabilities, input validation and whitelisting are used on the server-side to restrict the URLs that can be exchanged in the request, which the whitelist of the allowed domain is "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of the allowed domain to external resources mitigates this SSRF attack. On our secure site, input `http://localhost/admin_home.php` into the API request field intended for fetching external content. The request should be rejected, demonstrating the intended mitigation measures.
