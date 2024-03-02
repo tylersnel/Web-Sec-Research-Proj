@@ -91,7 +91,7 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - Test 2: Sign out and go back to the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish.  No alert should appear and a new account will be created.
     - Test 3: Navigate to the administrator page from the login page. (username and password are admin). The main page should load without an XSS attack warning. 
     
-    
+
 ## Server-Side Request Forgery (SSRF)
 
 - **Reason for Successful Attack:**
@@ -99,6 +99,7 @@ Server-Side Request Forgery (SSRF) is a vulnerability that occurs when an attack
 
 - **Attacks:**
    - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. In the request, input `…/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.
+   
    ![alt text](<Symbol.jpeg>)
    ![alt text](<SymbolAttack.jpeg>)
    - It is possible for an attacker to also enter other sensitve areas of the application or to input a malicious site.
