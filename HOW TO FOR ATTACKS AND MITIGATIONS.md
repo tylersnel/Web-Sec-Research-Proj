@@ -51,11 +51,8 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
     - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
 - **Horizontal privilege escalation:** where a user can access other users' data:
-    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
+    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In an insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
-- **Role-based access control (RBAC):** the user -> role -> permission -> capability. We have designed the application to limit the users' capability only to their own account. And admin login through a different pathway with different capabilities.
-- **Discretionary Access Control (DAC):** admin capability is limited to admin and not any user. Admin can choose to edit a user's account information.
-- **Integrity based or Mandatory Access Control (MAC):** where a central authority could regulate access. Banks normally keep records of all their activities, such as editing or deleting an account.
 
 ## Broken Authentication
 - **Reason for Successful Attack** When there are no password requirements, people will tend to use passwords that are easier to remember and if they are easy to remember, they are easy to guess. Also, if there is no limit on the number of attempts one can try on a login attempt, then an attacker can just keep trying until they get it right. No requirements for passwords and no limit on the number of attempts to login leaves user accounts vulnerable to attack from a persistent attacker. 
@@ -99,7 +96,7 @@ Server-Side Request Forgery (SSRF) is a vulnerability that occurs when an attack
 
 - **Attacks:**
    - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. In the request, input `…/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.
-   
+
    ![alt text](<Symbol.jpeg>)
    ![alt text](<SymbolAttack.jpeg>)
    - It is possible for an attacker to also enter other sensitve areas of the application or to input a malicious site.
