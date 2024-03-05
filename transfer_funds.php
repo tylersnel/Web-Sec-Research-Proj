@@ -27,10 +27,11 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
      <head>
           <title>Transfer Funds</title>
-          <link rel="stylesheet" type="text/css" href="style.css">
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
      </head>
 
      <body>
+          <div class="container border bg-light shadow-lg">
           <h1>Transfer Funds from <?php echo $_SESSION['name'] ?>'s Account</h1>
 
           <h2> Account Total <?php echo $accountTotal; ?></h2>
@@ -53,7 +54,7 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
                <input type="hidden" name="transactionType" value= "<?php echo 'withdrawal';?>">
 
-               <input type="submit" value="Submit">
+               <input class="btn btn-primary my-1" type="submit" value="Submit">
           </form>
           <?php
           if (isset($_GET['success'])) {
@@ -63,7 +64,8 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
           ?>
 
           <br></br>
-          <a href="home.php">Return Home</a>
+          <button class="text-primary"><a href="home.php">Return Home</a></button>
+          </div>
      </body>
 
      </html>

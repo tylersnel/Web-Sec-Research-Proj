@@ -12,7 +12,7 @@ function getYahooFinanceData($symbol)
 {
     $allowedDomains = array("yahoo-finance127.p.rapidapi.com"); // Define an array of allowed domains
     // $allowedDomains = array("");
-    
+
     // Extract the domain from the URL
     $urlParts = parse_url("https://yahoo-finance127.p.rapidapi.com/price/{$symbol}");
     // $urlParts = parse_url($symbol);
@@ -20,7 +20,7 @@ function getYahooFinanceData($symbol)
 
     // Check if the domain is in the whitelist
     if (in_array($domain, $allowedDomains)) {
-    // if (($domain)) {
+        // if (($domain)) {
         $apiKey = $_ENV['RAPIDAPI_KEY']; // Access the API key from environment variable
 
         $curl = curl_init();
@@ -96,19 +96,21 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
     </head>
 
     <body>
-        <div class="container">
+        <div class="container border bg-light shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+                <symbol id="exclamation-triangle-fill" viewBox="0 0 16 16">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                </symbol>
+            </svg>
             <h1>Account For <?php echo $_SESSION['name'] ?> </h1>
             <br>
-            <br>
             <ul>
-                <li><a href="transfer_funds.php">Transfer Funds</a></li>
-                <li><a href="bill_pay.php">Pay Bills</a></li>
+                <li><button class="text-primary my-1"><a href="transfer_funds.php">Transfer Funds</a></button></li>
+                <li><button class="text-primary my-1"><a href="bill_pay.php">Pay Bills</a></button></li>
             </ul>
-            <br>
             <br>
             <h2> Account Total <?php echo $accountTotal; ?></h2>
 
-            <!-- <table border='1'> -->
             <table class="table table-striped table-bordered table-hover table-sm">
                 <caption>List of Transactions</caption>
                 <thead class="thead-dark">
@@ -151,12 +153,21 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                 <input type="hidden" name="account_id" value="<?php echo $_SESSION['id']; ?>">
                 <input type="hidden" name="account_total" value="<?php echo $accountTotal; ?>">
 
-                <input type="submit" value="Submit">
+                <input class="btn btn-primary my-1" type="submit" value="Submit">
+
             </form>
+
             <?php
             if (isset($_GET['success'])) {
                 $successMessage = $_GET['success'];
-                echo "<div style='color: green;'>$successMessage</div>";
+                echo    "<div class='text-center alert alert-success my-1 alert-dismissable fade show' role='alert' style='margin-top: -5px;'>
+                            <strong class='my-5'>
+                                $successMessage
+                            </strong>
+                            <div style='text-align: right; margin-top: -30px;'>
+                                <button type='button' class='btn-close text-end' data-bs-dismiss='alert' aria-label='Close'></button>
+                            </div>
+                        </div>";
             }
 
             $errors = array();
@@ -164,7 +175,12 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
                 array_push($errors, "Overdrawn Account!");
                 if (count($errors) > 0) {
                     foreach ($errors as  $error) {
-                        echo "<div class='error' style='color: red;'>$error</div>";
+                        echo    "<div class='alert alert-danger d-flex align-items-center mx-auto' role='alert'>
+                                    <svg class='bi flex-shrink-0 me-1' style='width: 24px; height: 24px;' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                        <div>
+                                            $error
+                                        </div>
+                                </div>";
                     }
                 }
             }
@@ -172,12 +188,17 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
 
             <br></br>
 
-
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <form id="stockForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <label for="symbol">Enter Stock Symbol:</label>
                 <input type="text" id="symbol" name="symbol" required>
-                <input type="submit" value="Get Yahoo Finance Data">
+                <input id="submitButton" class="btn btn-primary my-1" type="submit" value="Get Yahoo Finance Data">
+                <button id="spinnerButton" class="btn btn-primary visually-hidden" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span class="visually-hidden">Loading...</span>
+                </button>
             </form>
+
+
 
             <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -187,9 +208,17 @@ if (isset($_SESSION['id']) && isset($_SESSION['user_name'])) {
             ?>
 
             <br></br>
-            <a href="logout.php">Logout</a>
+            <button class="text-primary"><a href="logout.php">Logout</a></button>
+            <!-- <a href="logout.php">Logout</a> -->
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+            <script>
+                document.getElementById("stockForm").addEventListener("submit", function(event) {
+                    // Show spinner button
+                    document.getElementById("spinnerButton").classList.remove("visually-hidden");
+                    document.getElementById("submitButton").classList.add("visually-hidden");
+                });
+            </script>
         </div>
     </body>
 

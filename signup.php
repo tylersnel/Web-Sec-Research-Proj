@@ -9,11 +9,11 @@ include "db_conn.php";
   <meta charset="UTF-8">
   <title>Smaug Bank</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="app.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
-  <div class="container">
+  <div class="container text-center border bg-light shadow-lg">
     <h2>Create an Account</h2>
 
     <!-- <form action="home.php" method="POST"> -->
@@ -36,14 +36,14 @@ include "db_conn.php";
         First Name on Account:<br>
         <input type="text" name="name">
         <br>
-        <input type="submit" name="submit" value="submit" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>">
+        <input class="btn btn-primary my-1" type="submit" name="submit" value="submit" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '' ?>">
       </fieldset>
       <?php
       if (isset($_POST['submit'])) {
 
         $uname = $_POST['user_name'];
-        // $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);  // Hash the password
-        $pass = $_POST['password'];
+        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);  // Hash the password
+        // $pass = $_POST['password'];
         $password_repeat = $_POST['password_repeat'];
         $name = $_POST['name'];
         $account_total = 1000;
@@ -100,7 +100,7 @@ include "db_conn.php";
           if ($stmt->execute()) {
             // header("Location: home.php");
             // exit();
-            echo "<div class='success'>Account Created! Go back to log in</div>";
+            echo "<div class='success alert alert-success' role='alert'>Account Created! Go back to log in</div>";
 
           } else {
             echo "<div class='error'>Error: Registration failed. Please try again.</div>";
@@ -112,7 +112,10 @@ include "db_conn.php";
       }
       ?>
     </form>
-    <a href="index.php">Back to log in</a>
+    <!-- <a href="index.php">Back to log in</a> -->
+    <button class="text-primary my-5"><a href="index.php">Back to log in</a></button>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
   </div>
 </body>
 

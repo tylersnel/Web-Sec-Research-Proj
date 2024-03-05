@@ -47,10 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Admin Login - Smaug Bank</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="app.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <div class="login-container">
+    <div class="container text-center my-5 border bg-light shadow-lg">
         <?php
         // Display errors, if any
         if (!empty($errors)) {
@@ -64,18 +64,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <form action="admin_login.php" method="POST">
             <fieldset>
-                <legend>Admin Login:</legend>
+                <h1><legend>Admin Login:</legend></h1>
                 User name:<br>
                 <input type="text" name="name">
                 <br>
                 Password:<br>
                 <input type="text" name="pwd">
                 <br>
-                <input type="submit" name="submit" value="Submit">
+                <input class="btn btn-primary my-1" type="submit" name="submit" value="Submit">
             </fieldset>
         </form>
         
-        <a href="index.php">Back to log in</a>
+        <!-- <a href="index.php">Back to log in</a> -->
+        <button class="text-primary my-5"><a href="index.php">Back to log in</a></button>
     </div>
 </body>
 </html>

@@ -47,12 +47,18 @@ if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
 
     <head>
         <title>Admin Home - Smaug Bank</title>
+        <script>
+            function confirmDelete() {
+                return confirm("Are you sure you want to delete this user?");
+            }
+        </script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
 
     <body>
-        <div class="container">
-            <h1>Welcome, <?php echo htmlspecialchars($_SESSION['admin_name']); ?>!</h1>
+        <!-- <div class="container-fluid"> -->
+        <div class="container border bg-light text-center shadow-lg">
+            <h1 class="center-text">Welcome, <?php echo htmlspecialchars($_SESSION['admin_name']); ?>!</h1>
             <br><br>
 
             <?php
@@ -61,7 +67,7 @@ if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
                 // Output data of each row
                 while ($row = $result->fetch_assoc()) {
             ?>
-                    <div>
+                    <div class="row border border-black my-2">
                         <h2>User ID: <?php echo htmlspecialchars($row['id']); ?></h2>
                         <p>User Name: <?php echo htmlspecialchars($row['user_name']); ?></p>
                         <p>Name: <?php echo htmlspecialchars($row['name']); ?></p>
@@ -71,9 +77,11 @@ if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
                         <!-- <a href="edit_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Edit', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Edit</a>
                     <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="insertAdminChange('Delete', <?php echo $_SESSION['id']; ?>, <?php echo $row['id']; ?>)">Delete</a> -->
 
-                        <a href="edit_user.php?id=<?php echo $row['id']; ?>">Edit</a>
+                        <!-- <a href="edit_user.php?id=<?php echo $row['id']; ?>">Edit</a> -->
+                        <button class="text-primary my-2"><a href="edit_user.php?id=<?php echo $row['id']; ?>">Edit</a></button>
                         <br>
-                        <a href="delete_user.php?id=<?php echo $row['id']; ?>">Delete</a>
+                        <!-- <a href="delete_user.php?id=<?php echo $row['id']; ?>">Delete</a> -->
+                        <button class="my-2 bg-opacity-50 bg-danger border-danger border-opacity-50"><a onclick='return confirmDelete();' href="delete_user.php?id=<?php echo $row['id']; ?>">Delete</a></button>
                         <br>
                         <br>
                     </div>
@@ -85,7 +93,8 @@ if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
             ?>
 
             <br><br>
-            <a href="logout.php">Logout</a>
+            <button class="text-primary"><a href="logout.php">Logout</a></button>
+            <!-- <a href="logout.php">Logout</a> -->
         </div>
     </body>
 

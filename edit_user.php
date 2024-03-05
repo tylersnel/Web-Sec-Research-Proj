@@ -77,7 +77,7 @@ $conn->close();
 </head>
 
 <body>
-    <div class="container">
+    <div class="container border bg-light text-center shadow-lg">
         <h1>Edit User</h1>
 
         <?php if (!empty($errors)) : ?>
@@ -92,7 +92,7 @@ $conn->close();
             <?php endif; ?>
             <form action="" method="post">
                 <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-                <label>User Name:</label>
+                <label class="my-3">User Name:</label>
                 <input type="text" name="user_name" value="<?php echo htmlspecialchars($user['user_name']); ?>"><br><br>
                 <label>Password:</label>
                 <input type="password" name="password" value="<?php echo htmlspecialchars($user['password']); ?>"><br><br>
@@ -100,10 +100,12 @@ $conn->close();
                 <input type="text" name="name" value="<?php echo htmlspecialchars($user['name']); ?>"><br><br>
                 <label>Account Total:</label>
                 <input type="text" name="account_total" value="<?php echo htmlspecialchars($user['account_total']); ?>"><br><br>
-                <input type="submit" value="Update">
+                <input class="btn btn-primary my-1" type="submit" value="Update">
             </form>
         <?php endif; ?>
-        <br><a href="admin_home.php">Go back to Admin Home</a>
+        <br>
+        <!-- <a href="admin_home.php">Go back to Admin Home</a> -->
+        <button class="text-primary my-5"><a href="admin_home.php">Go back to Admin Home</a></button>
     </div>
 </body>
 
