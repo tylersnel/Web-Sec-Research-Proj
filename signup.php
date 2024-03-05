@@ -42,7 +42,7 @@ include "db_conn.php";
       if (isset($_POST['submit'])) {
 
         $uname = $_POST['user_name'];
-        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);  // Hash the password
+        $pass = $_POST['password'];  // Hash the password
         // $pass = $_POST['password'];
         $password_repeat = $_POST['password_repeat'];
         $name = $_POST['name'];
@@ -94,6 +94,7 @@ include "db_conn.php";
             // exit();
           }
         } else {
+          $pass=password_hash($pass, PASSWORD_DEFAULT); // HASH password
           $stmt = $conn->prepare("INSERT INTO `users`(`user_name`, `password`, `name`, `account_total`) VALUES (?, ?, ?, ?)");
           $stmt->bind_param("ssss", $uname, $pass, $name, $account_total);
 

@@ -47,14 +47,14 @@ include "db_conn.php";
                         }
                     } else {
                         //updated to prevent injection. Separates SQL code from user input
-                        $sql = "SELECT * FROM users WHERE user_name=? AND password=?";
+                        $sql = "SELECT * FROM users WHERE user_name=?";
 
                         // added to prevent injection
                         $stmt = $conn->prepare($sql);
 
                         //added to prevent injection
                         if ($stmt) {
-                            $stmt->bind_param("ss", $uname, $pass);
+                            $stmt->bind_param("s", $uname);
 
                             $stmt->execute();
 
@@ -62,46 +62,57 @@ include "db_conn.php";
 
                             if ($result->num_rows === 1) {
                                 $row = $result->fetch_assoc();
+                                if (password_verify($pass, $row['password'])){
 
-                                // User authenticated successfully
-                                // Start session and redirect to home.php
-                                $_SESSION['user_name'] = $row['user_name'];
-                                $_SESSION['name'] = $row['name'];
-                                $_SESSION['id'] = $row['id'];
-                                $_SESSION['account_total'] = $row['account_total'];
-                                $fk_Id = $row['id'];
+                                    // User authenticated successfully
+                                    // Start session and redirect to home.php
+                                    $_SESSION['user_name'] = $row['user_name'];
+                                    $_SESSION['name'] = $row['name'];
+                                    $_SESSION['id'] = $row['id'];
+                                    $_SESSION['account_total'] = $row['account_total'];
+                                    $fk_Id = $row['id'];
 
-                                //checks if account is locked even if login sucessful 
-                                account_lock_check($row['user_name'], $conn);
+                                    //checks if account is locked even if login sucessful 
+                                    account_lock_check($row['user_name'], $conn);
 
-                                // Additional query for transaction table
-                                //updated to prevent injection
-                                $additionalQuery = "SELECT * FROM transactions WHERE accountid=?";
-                                $stmt = $conn->prepare($additionalQuery);
-                                $stmt->bind_param("i", $fk_Id);
-                                $stmt->execute();
-                                $additionalResult = $stmt->get_result();
+                                    // Additional query for transaction table
+                                    //updated to prevent injection
+                                    $additionalQuery = "SELECT * FROM transactions WHERE accountid=?";
+                                    $stmt = $conn->prepare($additionalQuery);
+                                    $stmt->bind_param("i", $fk_Id);
+                                    $stmt->execute();
+                                    $additionalResult = $stmt->get_result();
 
-                                if ($additionalResult->num_rows > 0) {
-                                    $additionalData = $additionalResult->fetch_assoc();
-                                    // Process the additional data as needed
-                                    $_SESSION['amount'] = $additionalData['amount'];
-                                    $_SESSION['transactionID'] = $additionalData['transactionID'];
-                                    $_SESSION['date'] = $additionalData['date'];
+                                    if ($additionalResult->num_rows > 0) {
+                                        $additionalData = $additionalResult->fetch_assoc();
+                                        // Process the additional data as needed
+                                        $_SESSION['amount'] = $additionalData['amount'];
+                                        $_SESSION['transactionID'] = $additionalData['transactionID'];
+                                        $_SESSION['date'] = $additionalData['date'];
+                                    }
+
+                                    //rest of failed login attemtps
+                                    $stmt = $conn->prepare("UPDATE users SET failed_logins = 0 WHERE id = $fk_Id");
+                                    $stmt->execute();
+                                    header("Location: home.php");
+                                    exit();
+                                } else {
+                                    //If password not found                                
+                                    //checks if account is locked
+                                    account_lock_check($uname, $conn);
+                                    //check if failed login attempt on username                 
+                                    account_failed_attempts($uname, $conn);
+                                    array_push($errors, "$pass password incorrcet. Try again");
+                                    if (count($errors) > 0) {
+                                        foreach ($errors as  $error) {
+                                            echo "<div class='error'>" . htmlspecialchars($error) . "</div>";
+                                        }
+                                    }
+                                    exit();
                                 }
-
-                                //rest of failed login attemtps
-                                $stmt = $conn->prepare("UPDATE users SET failed_logins = 0 WHERE id = $fk_Id");
-                                $stmt->execute();
-                                header("Location: home.php");
-                                exit();
                             } else {
-
-                                //checks if account is locked
-                                account_lock_check($uname, $conn);
-                                //check if failed login attempt on username                 
-                                account_failed_attempts($uname, $conn);
-                                array_push($errors, "$uname username not found or $pass password incorrcet. Try again");
+                                //If username not found
+                                array_push($errors, "$uname username not found. Try again");
                                 if (count($errors) > 0) {
                                     foreach ($errors as  $error) {
                                         echo "<div class='error'>" . htmlspecialchars($error) . "</div>";
