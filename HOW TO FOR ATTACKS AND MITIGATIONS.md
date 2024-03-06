@@ -69,7 +69,7 @@ Retry attacks from above on the more secure site. With mitigations in place, att
 
 - **Attacks:**
     - Test 1: Log in to your account or create one if you have not yet. Navigate to the Pay Bills page. In the TO section, input `<script>alert("XSS")</script>` and complete the rest of the inputs and click Submit. An alert should appear warning of an XSS attack.
-    - Test 2: From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear warning of an XSS attack.
+    - Test 2: Log out of your account. From the login page, click on the sign up here tag. In the user name field, input `<script>alert("XSS attack")</script>` and fill out the rest of the input fields as you wish. An alert should appear warning of an XSS attack.
     - Test 3: Navigate to the administrator page from the login page. (username and password are admin). Once the admin page loads, an XSS attack alert should appear. 
    
 
