@@ -29,6 +29,8 @@ The first prevention technique used was the PHP function `mysqli_real_escape_str
 
 Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_name=? AND password=?";`) and separate SQL code from user input data. Later, prepared statements (`$stmt = $conn->prepare($sql);`) are used to bind values to these placeholders. Prepared statements separate SQL code from data. When these two features work in conjunction, they ensure user input is treated as data and not executable code.
 
+Retry attacks from above on the more secure site. With mitigations in place, attacks will not work.
+
 ## Additional Resources:
 - [PHP: mysqli_real_escape_string - Manual](https://www.php.net/manual/en/mysqli.real-escape-string.php)
 - [PHP: Prepared Statements - Manual](https://www.php.net/manual/en/mysqli.prepare.php)
