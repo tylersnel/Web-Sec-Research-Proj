@@ -12,28 +12,17 @@
 - **Reason for Successful Attack** The reason SQL injection is successful on our insecure website is that we lack input validation. Whatever the attacker manually inputs into the user input fields is used directly in the SQL queries. Thus an attacker can manipulate our SQL queries to try and login without knowing the password, gather information for more complex attacks, or anything else they are looking to accomplish.
 
 - **SQL Injection:**
-    1. Put `tyler' OR '1'='1` or `tyler'--` (note there is a space after --) in the username field.
+    1. Put `tyler'--` (note there is a space after --) in the username field.
     2. Enter anything in the password field.
     3. Login to access Tyler's account.
 
 - **UNION SQL Injection:**
     1. Put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users--` (note there is a space after --) in the username field.
     2. Enter anything in the password field.
-    3. No syntax error indicates the number of columns in the `users` table for intel gathering.
-
-- **Error Based 1:**
-    1. Put `'` in the username field.
-    2. Enter anything in the password field.
-    3. A syntax error will appear.
-    4. Extract the error message to determine the database type.
-    5. Error message also provides the location of the error in the query and file path.
-
-- **Error Based 2:**
-    1. Put `' OR 1=1;--` (note there is NOT a space after --) in the username field.
-    2. Enter anything in the password field. in the username field.
-    2. Enter anything in the password field.
-    3. A syntax error will appear.
-    4. Error shows where the error occurred in the query, revealing column names like `password`.
+    3. You will see this error "tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- username not found or 123 password incorrect. Try again"
+    4. Now out `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL FROM users-- `(note there is a space after --) in the username field.
+    5. No error message will appear 
+    6. From this, we can tell how many columns are in the table (5) from the message that displays as it is not a syntax error. Syntax errors do not appear on the hosted site. 
 
 #### Solution:
 The first prevention technique used was the PHP function `mysqli_real_escape_string()` on user inputs. This function is used to escape special characters in a string when dealing with user input used in SQL queries. It adds escape characters before certain characters that have special meanings in SQL queries, ensuring the string can be safely used in an SQL query. Next, parametrized values and prepared statements were utilized for extra security.
