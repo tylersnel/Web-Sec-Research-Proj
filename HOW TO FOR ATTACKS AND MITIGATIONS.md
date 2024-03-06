@@ -12,7 +12,7 @@
 - **Reason for Successful Attack** The reason SQL injection is successful on our insecure website is that we lack input validation. Whatever the attacker manually inputs into the user input fields is used directly in the SQL queries. Thus an attacker can manipulate our SQL queries to try and login without knowing the password, gather information for more complex attacks, or anything else they are looking to accomplish.
 
 - **SQL Injection:**
-    1. Put `tyler'--` (note there is a space after --) in the username field.
+    1. Put `tyler'-- ` (note there is a space after --) in the username field.
     2. Enter anything in the password field.
     3. Login to access Tyler's account.
 
