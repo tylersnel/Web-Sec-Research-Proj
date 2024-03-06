@@ -50,19 +50,19 @@ Retry attacks from above on the more secure site. With mitigations in place, att
 
 - **Brute Force Password Guessing:** where an attacker gains access to a user account by guessing common passwords:
     - In our insecure site, users can create any password they wish. It can be a common password, 1 character, and no combinations required. Also, there are no limits to the number of attempts a user has on trying to access their account, leaving user accounts vulnerable to password guessing since the passwords could be commonly used and an attacker can keep guessing.
-    - Test 1: Create a new user and create any password you wish.
-    - Test 2: Attempt to log into new account with the wrong password as many times as you like. Then log into the account with the correct password immediately after.
-    - Test 3: Login to username: tyler and password: 123. Common username and password.
-    - Test 4: Download brute_force_login_script.py and 10k-most-common.txt. Make appropriate edits to Python script. Where to edit is marked in the script. Run script to brute force common passwords.
+    - Test 1: From the login page, go to the create a new user page by clicking on the sign up here link. Create a new user with any password you wish.
+    - Test 2: Go back to the login page by clicking the return link. Attempt to log into the new account with the wrong password as many times as you like as you will not lock the account. Then log into the account with the correct password immediately after.
+    - Test 3: Log out and navigate back to the login page. Login to username: tyler and password: 123. Common username and password to guess.
+    - Test 4: Download brute_force_login_script.py and 10k-most-common.txt. Make appropriate edits to Python script. Where to edit is marked in the script. Run script to brute force common passwords. If the script is able to log in, the successful password will be printed to the terminal.
 
 - **Solution:**
     - In our secure site first, we added character requirements for passwords. They must be at least 12 characters long and must have 1 capital letter, 1 lowercase letter, 1 number, and 1 special character. Next, we check the potential user password against a list of 10k common passwords. If there is a match, the password is not accepted. We also implemented an account lock feature where if someone attempts 5 failed login accounts, the account is locked for 1 minute (short for grading purposes). The user can successfully log in again with the correct password after the 1-minute lockout expires.
-    - Test 1: Try and create a new user with password 123.
+    - Test 1: On the more secure site's login page, navigate to the create a user page by clicking the sign up here link. Try and create a new user with password 123.
     - Test 2: Try and create a new user with password qwertY12345^
-    - Test 4: Create a new user following character requirements for password.
-    - Test 3: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
-             -Step 2: Try to log into your newly created account with the correct password.
-             -Step 3: Once lockout expires, log into a newly created user account.
+    - Test 3: Create a new user following the character requirements for the password.
+    - Test 4: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
+             -Step 2: Try to log into your newly created account one more time but with the correct password. Your account should be locked for one minute. 
+             -Step 3: Once lockout expires, log into a newly created user account with the correct password.
 
 ## Cross Site Scripting (XSS)
 - **Reason for Successful Attack** The reason an XSS attack is successful on our insecure website is due to the lack of proper sanitization and encoding of user input before displaying it back to the user. For example in our insecure site, if a user input username is not found or the password is incorrect, that user input username and password is displayed back to the user with a warning that the username could not be found or the password is incorrect. Thus, an attack would be able to add an XSS attack to the username or password input field.
