@@ -46,9 +46,7 @@ Test 1: Exploit the vertical privilege escalation vulnerability by directly acce
 Test 2: Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
 
 - **Solution:**
-To mitigate the vertical privilege escalation vulnerability, ensure that access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC), and thoroughly validating user permissions before granting access to sensitive functionalities.
-
-To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. Specifically, validate and sanitize all user inputs to prevent unauthorized access to other users' data. Additionally, enforce proper access controls and permissions at the application level to restrict users' access to only their own data.
+To mitigate the vertical privilege escalation vulnerability, ensure that access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC), and thoroughly validating user permissions before granting access to sensitive functionalities.To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. Specifically, validate and sanitize all user inputs to prevent unauthorized access to other users' data. Additionally, enforce proper access controls and permissions at the application level to restrict users' access to only their own data.
 
 
 ## Broken Authentication
