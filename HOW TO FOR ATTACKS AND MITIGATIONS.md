@@ -38,6 +38,18 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 - **Horizontal privilege escalation:** where a user can access other users' data:
     - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In an insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
+- **Reason for Successful Attack**
+The reason for the successful vertical privilege escalation attack is the flawed conditional checks in the session management system. Specifically, the system allows direct access to the admin section (/admin_home.php) if certain session variables related to regular user authentication are set, without verifying the user's admin privileges.
+
+- **Attacks:**
+Test 1: Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
+Test 2: Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
+
+- **Solution:**
+To mitigate the vertical privilege escalation vulnerability, ensure that access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC), and thoroughly validating user permissions before granting access to sensitive functionalities.
+
+To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. Specifically, validate and sanitize all user inputs to prevent unauthorized access to other users' data. Additionally, enforce proper access controls and permissions at the application level to restrict users' access to only their own data.
+
 
 ## Broken Authentication
 - **Reason for Successful Attack** When there are no password requirements, people will tend to use passwords that are easier to remember and if they are easy to remember, they are easy to guess. Also, if there is no limit on the number of attempts one can try on a login attempt, then an attacker can just keep trying until they get it right. No requirements for passwords and no limit on the number of attempts to login leaves user accounts vulnerable to attack from a persistent attacker. 
