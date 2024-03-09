@@ -12,8 +12,8 @@ login_url = 'https://web.engr.oregonstate.edu/~snelgrot/index.php'
 #replace with your file location of  have most-common.txt
 with open("C:\\xampp\\htdocs\\Web-Sec-Research-Proj\\10k-most-common.txt", "r") as file:
     for line in file:
-    # User credentials. Use common username ie dave, bob, cliff, al, john, sam
-        username = 'tyler'
+    # User credentials. Use common username ie dave, bob, paul, johnathan, tyler
+        username = 'johnathan'
         password = line
         password = password.rstrip("\n")
 
@@ -42,6 +42,3 @@ with open("C:\\xampp\\htdocs\\Web-Sec-Research-Proj\\10k-most-common.txt", "r") 
 
         print("Password not found")
         file.close()
-
-
-
