@@ -31,19 +31,17 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 
 ## Broken-Access Control / Authorization
 
-- **Vertical privilege escalation:** where a user can gain admin privileges:
-    - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
-    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
-
-- **Horizontal privilege escalation:** where a user can access other users' data:
-    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In an insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
-
 - **Reason for Successful Attack**
 The reason for the successful vertical privilege escalation attack is the flawed conditional checks in the session management system. Specifically, the system allows direct access to the admin section (/admin_home.php) if certain session variables related to regular user authentication are set, without verifying the user's admin privileges.
 
 - **Attacks:**
 Test 1: Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
+- **Vertical privilege escalation:** where a user can gain admin privileges:
+    - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
+    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 Test 2: Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
+- **Horizontal privilege escalation:** where a user can access other users' data:
+    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In an insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
 - **Solution:**
 To mitigate the vertical privilege escalation vulnerability, ensure that access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC), and thoroughly validating user permissions before granting access to sensitive functionalities.To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. Specifically, validate and sanitize all user inputs to prevent unauthorized access to other users' data. Additionally, enforce proper access controls and permissions at the application level to restrict users' access to only their own data.
