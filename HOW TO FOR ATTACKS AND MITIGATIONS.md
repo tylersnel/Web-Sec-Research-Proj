@@ -5,6 +5,7 @@
 - [Cross Site Scripting (XSS)](#cross-site-scripting-xss)
 - [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
 
+## IMPORTANT: For insecure site, make sure you are logged into OSU VPN as the site is hosted on the school's web servers. The site will not work if not logged in!
 
 ## Steps and Instructions:
 
@@ -15,7 +16,7 @@
     - Test: On our insecure site, put `tyler'-- ` (note there is a space after --) in the username field. Enter anything in the password field. Login to access Tyler's account.
 
 - **UNION SQL Injection:**
-    - Test: On our insecure site, put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- ` (note there is a space after --) in the username field. Enter anything in the password field. You will see this error "tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- username not found or 123 password incorrect. Try again". Now try `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL FROM users-- `(note there is a space after --) in the username field. No error message will appear.  From this, we can tell how many columns are in the table (5) from the message that displays as it is not a syntax error. Syntax errors do not appear on the hosted site. 
+    - Test: On our insecure site, put `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- ` (note there is a space after --) in the username field. Enter anything in the password field. You will see this error "tyler' UNION ALL SELECT NULL, NULL, NULL, NULL, NULL FROM users-- username not found or 123 password incorrect. Try again". Now try `tyler' UNION ALL SELECT NULL, NULL, NULL, NULL FROM users-- `(note there is a space after --) in the username field. No error message will appear.  From this, we can tell how many columns are in the table (5) from the message that displays as it is not a syntax error. Syntax errors do not appear on the hosted site since it is on OSU's web servers. 
 
 #### Solution:
 The first prevention technique used was the PHP function `mysqli_real_escape_string()` on user inputs. This function is used to escape special characters in a string when dealing with user input used in SQL queries. It adds escape characters before certain characters that have special meanings in SQL queries, ensuring the string can be safely used in an SQL query. Next, parametrized values and prepared statements were utilized for extra security.
