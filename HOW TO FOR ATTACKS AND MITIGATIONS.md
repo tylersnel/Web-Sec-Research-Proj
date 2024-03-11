@@ -36,11 +36,11 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 The reason for the successful vertical privilege escalation attack is the flawed conditional checks in the session management system. Specifically, the system allows direct access to the admin section (/admin_home.php) if certain session variables related to regular user authentication are set, without verifying the user's admin privileges.
 
 - **Attacks:**
-Test 1: Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
+**Test 1:** Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
 - **Vertical privilege escalation:** where a user can gain admin privileges:
     - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
     - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
-Test 2: Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
+**Test 2:** Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
 - **Horizontal privilege escalation:** where a user can access other users' data:
     - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In an insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
