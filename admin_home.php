@@ -8,7 +8,8 @@ session_start();
 if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name'])) {
     // Include the database connection script
     include "db_conn.php";
-
+    // function is a work in progress. This function is supposed to insert admin changes into the database so
+    // that the admin can keep track of changes made to the database for access control and auditing purposes.
     // Function to insert admin changes into the database
     function insertAdminChange($conn, $action, $adminId, $affectedUserId)
     {
