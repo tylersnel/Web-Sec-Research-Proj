@@ -93,7 +93,7 @@ Server-Side Request Forgery (SSRF) is a vulnerability that occurs when an attack
 
    ![alt text](<Symbol.jpeg>)
    ![alt text](<SymbolAttack.jpeg>)
-   - It is possible for an attacker to also enter other sensitve areas of the application or to input a malicious site.
+   - It is possible for an attacker to also enter other sensitive areas of the application or to input a malicious site.
 
 - **Solution:**
 To mitigate SSRF vulnerabilities, input validation and whitelisting are used on the server-side to restrict the URLs that can be exchanged in the request, which the whitelist of the allowed domain is "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of the allowed domain to external resources mitigates this SSRF attack. On our secure site, input `http://localhost/admin_home.php` into the API request field intended for fetching external content. The request should be rejected, demonstrating the intended mitigation measures.
