@@ -5,7 +5,7 @@
 - [Cross Site Scripting (XSS)](#cross-site-scripting-xss)
 - [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
 
-## IMPORTANT: For insecure and secure site, make sure you are logged into OSU VPN as the site is hosted on the school's web servers. The site will not work if not logged in!
+## IMPORTANT: For insecure and secure site, make sure you are logged into OSU VPN as the site is hosted on the school's web servers. The site will not work if not logged in! Start the site in a new browser each time the insecure or secure sites are used.
 
 ## Steps and Instructions:
 
@@ -36,16 +36,18 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 The reason for the successful vertical privilege escalation attack is the flawed conditional checks in the session management system. Specifically, the system allows direct access to the admin section (/admin_home.php) if certain session variables related to regular user authentication are set, without verifying the user's admin privileges.
 
 - **Attacks:**
-**Test 1:** Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
+**Test 1:** 
 - **Vertical privilege escalation:** where a user can gain admin privileges:
+    - Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
     - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
     - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
-**Test 2:** Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
+**Test 2:** 
 - **Horizontal privilege escalation:** where a user can access other users' data:
-    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In an insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
+    - Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
+    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In the insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
 
 - **Solution:**
-To mitigate the vertical privilege escalation vulnerability, ensure that access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC), and thoroughly validating user permissions before granting access to sensitive functionalities.To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. Specifically, validate and sanitize all user inputs to prevent unauthorized access to other users' data. Additionally, enforce proper access controls and permissions at the application level to restrict users' access to only their own data.
+To mitigate the vertical privilege escalation vulnerability, the access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC) through sessions. To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. The secure site validates and sanitizes all user inputs to prevent unauthorized access to other users' data.
 
 
 ## Broken Authentication
@@ -89,11 +91,8 @@ To mitigate the vertical privilege escalation vulnerability, ensure that access 
 Server-Side Request Forgery (SSRF) is a vulnerability that occurs when an attacker manipulates the server into making unauthorized requests to internal or external resources. In our application, the SSRF vulnerability arises from inadequate validation and sanitization of user-input URLs utilized in server-side requests. The SSRF attack succeeds due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests. Our unsecure application allows users to input URLs directly into the API request, which are then utilized in server-side requests without adequate validation or restriction, enabling attackers to manipulate the API parameter for unauthorized server-side requests.
 
 - **Attacks:**
-   - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. In the request, input `…/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.  The number for the id can be variable and only works if the user exists.
-
-   ![alt text](<Symbol.jpeg>)
-   ![alt text](<SymbolAttack.jpeg>)
+   - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. For the unsecure site request, input `https://web.engr.oregonstate.edu/~snelgrot/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.  The number for the id can be variable and only works if the user exists.
    - It is possible for an attacker to also enter other sensitive areas of the application or to input a malicious site.
 
 - **Solution:**
-To mitigate SSRF vulnerabilities, input validation and whitelisting are used on the server-side to restrict the URLs that can be exchanged in the request, which the whitelist of the allowed domain is "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of the allowed domain to external resources mitigates this SSRF attack. On our secure site, input `http://localhost/admin_home.php` into the API request field intended for fetching external content. The request should be rejected, demonstrating the intended mitigation measures.
+To mitigate SSRF vulnerabilities, input validation and whitelisting are used on the server-side to restrict the URLs that can be exchanged in the request, which the whitelist of the allowed domain is "yahoo-finance127.p.rapidapi.com". Implementing a whitelist of the allowed domain to external resources mitigates this SSRF attack. On our secure site, input `https://web.engr.oregonstate.edu/~chapmaj2/delete_user.php?id=1`(or whichever user id exists) into the API request field intended for fetching external content. The request should be rejected, demonstrating the intended mitigation measures.
