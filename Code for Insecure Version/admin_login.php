@@ -1,14 +1,14 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 session_start();
 include 'db_conn.php';
 
 $errors = []; // Initialize an array to store errors
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $uname = mysqli_real_escape_string($conn, $_POST['name']);
-    $pass = mysqli_real_escape_string($conn, $_POST['pwd']);
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $uname = mysqli_real_escape_string($conn, $_GET['name']);
+    $pass = mysqli_real_escape_string($conn, $_GET['pwd']);
     $sql = "SELECT * FROM admin WHERE name=? AND pwd=?";
     $stmt = $conn->prepare($sql);
 
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         ?>
 
-        <form action="admin_login.php" method="POST">
+        <form action="admin_login.php" method="GET">
             <fieldset>
                 <legend>Admin Login:</legend>
                 User name:<br>

@@ -21,16 +21,15 @@ include "db_conn.php";
         <h2 class="main-login">Online Banking Login</h2>
 
 
-        <!-- <form action="login.php" method="post" class="login-form"> -->
-        <form action="index.php" method="post" class="login-form">
+        <form action="index.php" method="get" class="login-form">
             <input type="text" name="user_name" class="form-input" placeholder="Username">
             <input type="password" name="password" class="form-input" placeholder="Password">
             <button type="submit" class="login-btn">Login</button>
         </form>
         <?php
-        if (isset($_POST['user_name']) && isset($_POST['password'])) {
-            $uname = $_POST['user_name'];
-            $pass = $_POST['password'];
+        if (isset($_GET['user_name']) && isset($_GET['password'])) {
+            $uname = $_GET['user_name'];
+            $pass = $_GET['password'];
 
             $errors = array();
 
@@ -50,41 +49,40 @@ include "db_conn.php";
                 $result = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($result) === 1) {
                     $row = mysqli_fetch_assoc($result);
-                    
-                        $_SESSION['user_name'] = $row['user_name'];
-                        $_SESSION['name'] = $row['name'];
-                        $_SESSION['id'] = $row['id'];
-                        $_SESSION['account_total'] = $row['account_total'];
 
-                        // Additional query for transaction table
-                        // Additional query to retrieve data from transactions table based on the account ID
-                        $fk_Id = $row['id'];
-                        $additionalQuery = "SELECT * FROM transactions WHERE accountid='$fk_Id'";
-                        $additionalResult = mysqli_query($conn, $additionalQuery);
+                    $_SESSION['user_name'] = $row['user_name'];
+                    $_SESSION['name'] = $row['name'];
+                    $_SESSION['id'] = $row['id'];
+                    $_SESSION['account_total'] = $row['account_total'];
 
-                        if ($additionalResult) {
-                            $additionalData = mysqli_fetch_assoc($additionalResult);
-                            // Process the additional data as needed
-                            $_SESSION['amount'] = $additionalData['amount'];
-                            $_SESSION['transactionID'] = $additionalData['transactionID'];
-                            $_SESSION['date'] = $additionalData['date'];
-                        }
+                    // Additional query for transaction table
+                    // Additional query to retrieve data from transactions table based on the account ID
+                    $fk_Id = $row['id'];
+                    $additionalQuery = "SELECT * FROM transactions WHERE accountid='$fk_Id'";
+                    $additionalResult = mysqli_query($conn, $additionalQuery);
 
-                        //NEW!!!!! FOR SECURE SITE
-				        //$stmt = $conn->prepare("UPDATE users SET failed_logins = 0 WHERE id = $fk_Id");
-				        //$stmt->execute();
-                        
-                        header("Location: home.php");
-                        exit();
+                    if ($additionalResult) {
+                        $additionalData = mysqli_fetch_assoc($additionalResult);
+                        // Process the additional data as needed
+                        $_SESSION['amount'] = $additionalData['amount'];
+                        $_SESSION['transactionID'] = $additionalData['transactionID'];
+                        $_SESSION['date'] = $additionalData['date'];
+                    }
 
+                    //NEW!!!!! FOR SECURE SITE
+                    //$stmt = $conn->prepare("UPDATE users SET failed_logins = 0 WHERE id = $fk_Id");
+                    //$stmt->execute();
+
+                    header("Location: home.php");
+                    exit();
                 } else {
-                   array_push($errors, "$uname username not found or $pass password incorrect. Try again");
+                    array_push($errors, "$uname username not found or $pass password incorrect. Try again");
                     if (count($errors) > 0) {
-                       foreach ($errors as  $error) {
+                        foreach ($errors as  $error) {
                             echo "<div class='error'>$error</div>";
                         }
                     }
-                    
+
                     exit();
                 }
             }

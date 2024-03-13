@@ -33,21 +33,19 @@ Parametrized values are denoted by '?' (`$sql = "SELECT * FROM users WHERE user_
 ## Broken-Access Control / Authorization
 
 - **Reason for Successful Attack**
-The reason for the successful vertical privilege escalation attack is the flawed conditional checks in the session management system. Specifically, the system allows direct access to the admin section (/admin_home.php) if certain session variables related to regular user authentication are set, without verifying the user's admin privileges.
+The reason for the successful vertical privilege escalation attack is the flawed conditional checks in the session management system. Specifically, the system allows direct access to the admin section (/admin_home.php) if certain session variables related to regular user authentication are set, without verifying the user's admin privileges. Another reason for a successful attack is the use of GET requests in forms instead of POST.
 
 - **Attacks:**
 **Test 1:** 
 - **Vertical privilege escalation:** where a user can gain admin privileges:
-    - Exploit the vertical privilege escalation vulnerability by directly accessing /admin_home.php while being logged in as a regular user. This can be achieved by manipulating the session variables or the URL to bypass the admin check.
-    - The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional check `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
-    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. The GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
+    - Exploit the vertical privilege escalation vulnerability by directly accessing `/admin_home.php` while being logged in as a regular user. This can be achieved by manipulating the URL to bypass the admin check or the session variables. The direct access of the `/admin_home.php` in the URL is allowed by the sessions if-else conditional `if (isset($_SESSION['id']) && isset($_SESSION['name']))` and blocked with `if (isset($_SESSION['admin_id']) && isset($_SESSION['admin_name']))`, and if they are not logged in, an automatic redirect to `/index.php` occurs.
+    - The GET method in the admin login form allows a user to randomly insert the name and pwd fields by brute force to access the admin account.
 **Test 2:** 
 - **Horizontal privilege escalation:** where a user can access other users' data:
-    - Attempt horizontal privilege escalation by manipulating the GET parameters in the URL to access other users' data. For instance, trying different user IDs in the URL to access accounts of other users.
-    - The POST method in the forms prevents a user from identifying and modifying the information in the URL to gain access. In the insecure application, the GET method could pass the user ID (or other information) where one individual could randomly insert numbers (brute force) that could access another account.
+    - In the insecure application, manipulate the GET parameters in the URL to access other users' data through brute force by trying different user name and password in the URL to access accounts of other users.
 
 - **Solution:**
-To mitigate the vertical privilege escalation vulnerability, the access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC) through sessions. To address horizontal privilege escalation, implement robust input validation and authorization mechanisms. The secure site validates and sanitizes all user inputs to prevent unauthorized access to other users' data.
+To mitigate the vertical privilege escalation vulnerability, the access to admin functionalities is strictly restricted to users with appropriate admin privileges. This can be achieved by implementing proper access control mechanisms, such as role-based access control (RBAC) through sessions. The secure site uses the POST method in the admin login forms to prevent a user from identifying and modifying the information in the URL to gain access. To address horizontal privilege escalation, the secure site uses the POST method in the forms to prevent a user from identifying and modifying the information in the URL to gain access.
 
 
 ## Broken Authentication
