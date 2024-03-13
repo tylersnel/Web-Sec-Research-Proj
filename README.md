@@ -6,3 +6,6 @@ Our goal is to create a simple web application to attempt various attacks on the
 
 MUST BE LOGGED IN TO OSU VPN FOR THE LESS SECURE WEBSITE TO LOAD:
 https://web.engr.oregonstate.edu/~snelgrot/index.php
+
+MUST BE LOGGED IN TO OSU VPN FOR THE SECURE WEBSITE TO LOAD:
+https://web.engr.oregonstate.edu/~chapmaj2/index.php

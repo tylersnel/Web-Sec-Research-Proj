@@ -5,7 +5,7 @@
 - [Cross Site Scripting (XSS)](#cross-site-scripting-xss)
 - [Server-Side Request Forgery (SSRF)](#server-side-request-forgery-ssrf)
 
-## IMPORTANT: For insecure site, make sure you are logged into OSU VPN as the site is hosted on the school's web servers. The site will not work if not logged in!
+## IMPORTANT: For insecure and secure site, make sure you are logged into OSU VPN as the site is hosted on the school's web servers. The site will not work if not logged in! And use Google Chrome.
 
 ## Steps and Instructions:
 
