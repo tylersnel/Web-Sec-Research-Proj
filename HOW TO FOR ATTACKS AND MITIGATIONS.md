@@ -61,7 +61,7 @@ To mitigate the vertical privilege escalation vulnerability, ensure that access 
 - **Solution:**
     - In our secure site first, we added character requirements for passwords. They must be at least 12 characters long and must have 1 capital letter, 1 lowercase letter, 1 number, and 1 special character. Next, we check the potential user password against a list of 10k common passwords. If there is a match, the password is not accepted. We also implemented an account lock feature where if someone attempts 5 failed login accounts, the account is locked for 1 minute (short for grading purposes). The user can successfully log in again with the correct password after the 1-minute lockout expires.
     - Test 1: On the more secure site's login page, navigate to the create a user page by clicking the sign up here link. Try and create a new user with password 123.
-    - Test 2: Try and create a new user with password qwertY12345^
+    - Test 2: Try and create a new user with password qwertY12345
     - Test 3: Create a new user following the character requirements for the password.
     - Test 4: Step 1: Try to log into your newly created user 5 times with an incorrect password. 
              -Step 2: Try to log into your newly created account one more time but with the correct password. Your account should be locked for one minute. 
