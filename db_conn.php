@@ -1,10 +1,11 @@
+
 <?php
 
 // $sname = "localhost";
 // $uname = "root";
 $sname = "classmysql.engr.oregonstate.edu";
 $uname = "capstone_2024_chapmaj2";
-$password = "7183";
+$password = "";
 $db_name = "capstone_2024_chapmaj2";
 
 // Specify the socket path
