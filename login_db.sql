@@ -123,6 +123,6 @@ ALTER TABLE `transactions`
 COMMIT;
 
 ALTER TABLE `users`
-  ADD COLUMN `failed_logins` int(11) DEFAULT 0,
-  ADD COLUMN `countdown_expiry` timestamp NOT
+  MODIFY COLUMN `failed_logins` int(11) DEFAULT 0,
+  MODIFY COLUMN `countdown_expiry` timestamp NOT
 NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP();
