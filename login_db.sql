@@ -1,12 +1,5 @@
 
 DROP TABLE IF EXISTS `admin`;
-
--- CREATE TABLE admin (
---     admin_id INT AUTO_INCREMENT PRIMARY KEY,
---     admin_name VARCHAR(255) NOT NULL,
---     pwd VARCHAR(255) NOT NULL
--- );
-
 --
 -- Table structure for table `admin`
 --
@@ -27,26 +20,6 @@ INSERT INTO `admin` (`admin_id`, `admin_name`, `pwd`) VALUES
 
 DROP TABLE IF EXISTS `admin_changes`;
 
--- CREATE TABLE admin_changes (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     action VARCHAR(255) NOT NULL,
---     admin_id INT NOT NULL,
---     affected_user_id INT NOT NULL,
---     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
-
-
--- CREATE TABLE users (
---     id INT(11) AUTO_INCREMENT PRIMARY KEY,
---     user_name VARCHAR(255) NOT NULL,
---     password VARCHAR(255) NOT NULL,
---     name VARCHAR(255) NOT NULL,
---     account_total decimal(10,2) NOT NULL,
---     failed_logins decimal(10,2) NULL,
---     countdown_expiry decimal(10,2) NULL
--- );
-
-
 --
 -- Table structure for table `admin_changes`
 --
@@ -60,8 +33,6 @@ CREATE TABLE `admin_changes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
-
-
 
 --
 -- Table structure for table `transactions`
@@ -150,3 +121,8 @@ ALTER TABLE `users`
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `users` (`id`);
 COMMIT;
+
+ALTER TABLE `users`
+  ADD COLUMN `failed_logins` int(11) DEFAULT 0,
+  ADD COLUMN `countdown_expiry` timestamp NOT
+NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP();
