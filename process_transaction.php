@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include "db_conn.php"; // Include your database connection script
 
@@ -8,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $transactionDate = $_POST['date'];
     $accountId = $_POST['account_id'];
     $account_total = $_POST['account_total'];
-    $transaction_type=$_POST['transactionType'];
+    $transaction_type = $_POST['transactionType'];
 
     // Validate form data (you can add more validation as needed)
     if (empty($amount) || empty($transactionDate) || empty($accountId)) {
@@ -16,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
     //If withdrawling from bank account
-    if($transaction_type == 'withdrawal'){
-        $amount*=-1;
+    if ($transaction_type == 'withdrawal') {
+        $amount *= -1;
     }
 
     // SQL to insert the transaction into the 'transactions' table
@@ -43,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Successful update
             // Update the session variable for account_total
             $_SESSION['account_total'] = $account_total;
-            
+
             // Redirect to the transaction form with a success message
             header("Location: home.php?success=Transaction added successfully");
             exit();

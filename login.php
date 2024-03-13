@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include "db_conn.php";
 
@@ -24,8 +26,8 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 	}
 	if (count($errors) > 0) {
 		foreach ($errors as  $error) {
-	        echo "<div class='error'>$error</div>";
-	    }
+			echo "<div class='error'>$error</div>";
+		}
 	} else {
 		$sql = "SELECT * FROM users WHERE user_name='$uname' AND password='$pass'";
 
@@ -65,7 +67,7 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 		}
 	}
 } else {
-	
+
 	header("Location: index.php");
 	exit();
 }

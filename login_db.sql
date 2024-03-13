@@ -25,25 +25,26 @@ CREATE TABLE `admin` (
 INSERT INTO `admin` (`admin_id`, `admin_name`, `pwd`) VALUES
 (1, 'admin', 'admin');
 
+DROP TABLE IF EXISTS `admin_changes`;
 
-CREATE TABLE admin_changes (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    action VARCHAR(255) NOT NULL,
-    admin_id INT NOT NULL,
-    affected_user_id INT NOT NULL,
-    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- CREATE TABLE admin_changes (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     action VARCHAR(255) NOT NULL,
+--     admin_id INT NOT NULL,
+--     affected_user_id INT NOT NULL,
+--     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 
-CREATE TABLE users (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    user_name VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    account_total decimal(10,2) NOT NULL,
-    failed_logins decimal(10,2) NULL,
-    countdown_expiry decimal(10,2) NULL
-);
+-- CREATE TABLE users (
+--     id INT(11) AUTO_INCREMENT PRIMARY KEY,
+--     user_name VARCHAR(255) NOT NULL,
+--     password VARCHAR(255) NOT NULL,
+--     name VARCHAR(255) NOT NULL,
+--     account_total decimal(10,2) NOT NULL,
+--     failed_logins decimal(10,2) NULL,
+--     countdown_expiry decimal(10,2) NULL
+-- );
 
 
 --
@@ -65,6 +66,7 @@ CREATE TABLE `admin_changes` (
 --
 -- Table structure for table `transactions`
 --
+DROP TABLE IF EXISTS `transactions`;
 
 CREATE TABLE `transactions` (
   `transactionID` int(11) NOT NULL,
@@ -78,6 +80,7 @@ CREATE TABLE `transactions` (
 --
 -- Table structure for table `users`
 --
+DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,

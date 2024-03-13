@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include "db_conn.php";
 
@@ -15,25 +16,24 @@ if (isset($_POST["submit"])) {
 
 
 
-   // if ( ! preg_match("/[a-z]/i", $_POST["password"])) {
-   //     die("password must have a letter");
-   // }
+    // if ( ! preg_match("/[a-z]/i", $_POST["password"])) {
+    //     die("password must have a letter");
+    // }
 
-   // if ($_POST["password"] !== $_POST["password_repeat"]) {
-   //   die("passwords do not match. try again");
-   // }
+    // if ($_POST["password"] !== $_POST["password_repeat"]) {
+    //   die("passwords do not match. try again");
+    // }
 
     $stmt = $conn->prepare("INSERT INTO `users`(`user_name`, `password`, `name`, `account_total`) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $uname, $pass, $name, $account_total);
 
     if ($stmt->execute()) {
         header("Location: home.php");
-        exit();  
+        exit();
     } else {
         echo "Error: Registration failed. Please try again.";
     }
 
     $stmt->close();
     $conn->close();
-
 }

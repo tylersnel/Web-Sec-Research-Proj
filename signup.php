@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include "db_conn.php";
 ?>
@@ -82,7 +84,7 @@ include "db_conn.php";
         }
 
         //send to password validation check
-        if (passwordCheck($pass) === false){
+        if (passwordCheck($pass) === false) {
           array_push($errors, "Password must be at least 12 characters, can't be a common password, must have one capital and lowercase letter, 
           number, and special character");
         }
@@ -94,7 +96,7 @@ include "db_conn.php";
             // exit();
           }
         } else {
-          $pass=password_hash($pass, PASSWORD_DEFAULT); // HASH password
+          $pass = password_hash($pass, PASSWORD_DEFAULT); // HASH password
           $stmt = $conn->prepare("INSERT INTO `users`(`user_name`, `password`, `name`, `account_total`) VALUES (?, ?, ?, ?)");
           $stmt->bind_param("ssss", $uname, $pass, $name, $account_total);
 
@@ -102,7 +104,6 @@ include "db_conn.php";
             // header("Location: home.php");
             // exit();
             echo "<div class='success alert alert-success' role='alert'>Account Created! Go back to log in</div>";
-
           } else {
             echo "<div class='error'>Error: Registration failed. Please try again.</div>";
           }
@@ -124,41 +125,41 @@ include "db_conn.php";
 
 
 <?php
-function passwordCheck($userPass){
-  if (strlen($userPass)<12){
+function passwordCheck($userPass)
+{
+  if (strlen($userPass) < 12) {
     return false;
   }
 
   $commonPass = file_get_contents('10k-most-common.txt');
-  if (strpos($commonPass,$userPass) !== false ){
+  if (strpos($commonPass, $userPass) !== false) {
     return false;
   }
 
   //Check for required characters
   $requiredChars = array('uppercase' => false, 'lowercase' => false, 'number' => false, 'special' => false);
-    
+
   // Check for each required character type
   if (preg_match('/[A-Z]/', $userPass)) {
-      $requiredChars['uppercase'] = true;
+    $requiredChars['uppercase'] = true;
   }
   if (preg_match('/[a-z]/', $userPass)) {
-      $requiredChars['lowercase'] = true;
+    $requiredChars['lowercase'] = true;
   }
   if (preg_match('/[0-9]/', $userPass)) {
-      $requiredChars['number'] = true;
+    $requiredChars['number'] = true;
   }
   if (preg_match('/[^A-Za-z0-9]/', $userPass)) {
-      $requiredChars['special'] = true;
-  }
-  
-  // Check if all required character types are present
-  foreach ($requiredChars as $requiredChar) {
-      if (!$requiredChar) {
-          // If any required character type is missing, return false
-          return false;
-      }
+    $requiredChars['special'] = true;
   }
 
+  // Check if all required character types are present
+  foreach ($requiredChars as $requiredChar) {
+    if (!$requiredChar) {
+      // If any required character type is missing, return false
+      return false;
+    }
+  }
 }
 
 ?>

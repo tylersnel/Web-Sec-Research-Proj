@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 include "db_conn.php";
 ?>
@@ -62,7 +64,7 @@ include "db_conn.php";
 
                             if ($result->num_rows === 1) {
                                 $row = $result->fetch_assoc();
-                                if (password_verify($pass, $row['password'])){
+                                if (password_verify($pass, $row['password'])) {
 
                                     // User authenticated successfully
                                     // Start session and redirect to home.php
