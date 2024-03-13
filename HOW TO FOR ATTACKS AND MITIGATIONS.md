@@ -89,7 +89,7 @@ To mitigate the vertical privilege escalation vulnerability, ensure that access 
 Server-Side Request Forgery (SSRF) is a vulnerability that occurs when an attacker manipulates the server into making unauthorized requests to internal or external resources. In our application, the SSRF vulnerability arises from inadequate validation and sanitization of user-input URLs utilized in server-side requests. The SSRF attack succeeds due to the absence of proper input validation and sanitization of the URL parameter used in server-side requests. Our unsecure application allows users to input URLs directly into the API request, which are then utilized in server-side requests without adequate validation or restriction, enabling attackers to manipulate the API parameter for unauthorized server-side requests.
 
 - **Attacks:**
-   - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. In the request, input `…/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.
+   - The SSRF vulnerability can also be exploited through the request from the Yahoo Finance button. In the request, input `…/delete_user.php?id=1` into the stock API field intended to fetch external content. This URL will delete that user in the database.  The number for the id can be variable and only works if the user exists.
 
    ![alt text](<Symbol.jpeg>)
    ![alt text](<SymbolAttack.jpeg>)

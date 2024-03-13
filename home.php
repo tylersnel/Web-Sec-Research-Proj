@@ -23,6 +23,7 @@ function getYahooFinanceData($symbol)
     // Check if the domain is in the whitelist
     if (in_array($domain, $allowedDomains)) {
         // if (($domain)) {
+        // if ($symbol) {
         $apiKey = $_ENV['RAPIDAPI_KEY']; // Access the API key from environment variable
 
         $curl = curl_init();
